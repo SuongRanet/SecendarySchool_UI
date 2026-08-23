@@ -1,0 +1,124 @@
+{
+  "title": "Students",
+  "subtitle": "Every student, their guardians and their academic history",
+  "create": "Add student",
+  "edit": "Edit student",
+  "details": "Student details",
+  "fields": {
+    "studentCode": "Student ID",
+    "firstNameEn": "First name",
+    "lastNameEn": "Last name",
+    "firstNameKh": "First name (Khmer)",
+    "lastNameKh": "Last name (Khmer)",
+    "gender": "Gender",
+    "dateOfBirth": "Date of birth",
+    "age": "Age",
+    "placeOfBirth": "Place of birth",
+    "nationalId": "National ID",
+    "phoneNumber": "Phone number",
+    "email": "Email",
+    "currentAddress": "Address",
+    "province": "Province",
+    "enrolledDate": "Enrolled on",
+    "status": "Status",
+    "notes": "Notes",
+    "currentClass": "Current class",
+    "gradeLevel": "Grade",
+    "academicYear": "Academic year",
+    "rollNumber": "Roll number",
+    "guardians": "Guardians",
+    "account": "Login account"
+  },
+  "placeholders": {
+    "search": "Search by name, student ID or phone…",
+    "codeAuto": "Generated automatically when left empty"
+  },
+  "filters": {
+    "status": "Status",
+    "grade": "Grade",
+    "class": "Class",
+    "gender": "Gender"
+  },
+  "status": {
+    "ACTIVE": "Active",
+    "INACTIVE": "Inactive",
+    "TRANSFERRED": "Transferred",
+    "GRADUATED": "Graduated",
+    "WITHDRAWN": "Withdrawn"
+  },
+  "enrollmentStatus": {
+    "ACTIVE": "Active",
+    "COMPLETED": "Completed",
+    "TRANSFERRED": "Transferred",
+    "WITHDRAWN": "Withdrawn",
+    "PROMOTED": "Promoted"
+  },
+  "relationship": {
+    "FATHER": "Father",
+    "MOTHER": "Mother",
+    "GRANDFATHER": "Grandfather",
+    "GRANDMOTHER": "Grandmother",
+    "UNCLE": "Uncle",
+    "AUNT": "Aunt",
+    "SIBLING": "Sibling",
+    "LEGAL_GUARDIAN": "Legal guardian",
+    "OTHER": "Other"
+  },
+  "tabs": {
+    "profile": "Profile",
+    "guardians": "Guardians",
+    "enrollments": "Academic history",
+    "attendance": "Attendance",
+    "grades": "Grades",
+    "behavior": "Behavior",
+    "reportCards": "Report cards"
+  },
+  "sections": {
+    "personal": "Personal information",
+    "contact": "Contact",
+    "school": "School information",
+    "firstEnrollment": "First enrollment",
+    "guardianLinks": "Link guardians",
+    "accountOptional": "Login account (optional)"
+  },
+  "guardians": {
+    "add": "Link guardian",
+    "primaryContact": "Primary contact",
+    "emergencyContact": "Emergency contact",
+    "canPickUp": "Allowed to pick up",
+    "relationship": "Relationship",
+    "remove": "Remove link",
+    "removeTitle": "Remove this guardian link?",
+    "removeMessage": "{{name}} will no longer be linked to this student. Neither record is deleted.",
+    "empty": "No guardian is linked to this student yet.",
+    "selectParent": "Select a guardian"
+  },
+  "enrollments": {
+    "title": "Academic history",
+    "empty": "This student has not been enrolled yet.",
+    "hint": "Each academic year keeps its own enrollment record, so previous classes are never lost.",
+    "current": "Current",
+    "transfer": "Transfer class",
+    "withdraw": "End enrollment",
+    "enroll": "Enroll in a class"
+  },
+  "dialogs": {
+    "archiveTitle": "Archive this student?",
+    "archiveMessage": "{{name}} will be hidden from the student list. Attendance, grades and enrollment history are preserved.",
+    "restoreTitle": "Restore this student?",
+    "restoreMessage": "{{name}} will appear in the student list again."
+  },
+  "empty": {
+    "title": "No students yet",
+    "message": "Register the first student to start building class rosters."
+  },
+  "toast": {
+    "created": "Student created successfully",
+    "updated": "Student updated successfully",
+    "archived": "Student archived successfully",
+    "restored": "Student restored successfully",
+    "guardianLinked": "Guardian linked successfully",
+    "guardianRemoved": "Guardian link removed"
+  },
+  "notEnrolled": "Not enrolled"
+}

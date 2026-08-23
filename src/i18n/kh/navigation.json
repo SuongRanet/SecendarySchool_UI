@@ -1,0 +1,58 @@
+{
+  "sections": {
+    "overview": "ទិដ្ឋភាពទូទៅ",
+    "people": "បុគ្គល",
+    "academics": "ការសិក្សា",
+    "operations": "ប្រតិបត្តិការប្រចាំថ្ងៃ",
+    "performance": "លទ្ធផលសិក្សា",
+    "communication": "ការទំនាក់ទំនង",
+    "system": "ប្រព័ន្ធ",
+    "myClasses": "ថ្នាក់របស់ខ្ញុំ",
+    "myChildren": "កូនរបស់ខ្ញុំ"
+  },
+  "items": {
+    "dashboard": "ផ្ទាំងគ្រប់គ្រង",
+    "students": "សិស្ស",
+    "parents": "មាតាបិតា",
+    "teachers": "គ្រូបង្រៀន",
+    "users": "អ្នកប្រើប្រាស់",
+    "roles": "តួនាទី និងសិទ្ធិ",
+    "academicYears": "ឆ្នាំសិក្សា",
+    "gradeLevels": "កម្រិតថ្នាក់",
+    "classes": "ថ្នាក់រៀន",
+    "subjects": "មុខវិជ្ជា",
+    "rooms": "បន្ទប់",
+    "enrollments": "ការចុះឈ្មោះ",
+    "schedules": "កាលវិភាគ",
+    "attendance": "វត្តមាន",
+    "assessments": "ការវាយតម្លៃ",
+    "exams": "ការប្រឡង",
+    "grades": "ពិន្ទុ",
+    "reportCards": "សៀវភៅពិន្ទុ",
+    "assignments": "កិច្ចការផ្ទះ",
+    "behaviors": "ឥរិយាបថ",
+    "announcements": "សេចក្តីជូនដំណឹង",
+    "notifications": "ការជូនដំណឹង",
+    "reports": "របាយការណ៍",
+    "auditLogs": "កំណត់ហេតុសវនកម្ម",
+    "settings": "ការកំណត់",
+    "myClasses": "ថ្នាក់របស់ខ្ញុំ",
+    "mySchedule": "កាលវិភាគរបស់ខ្ញុំ",
+    "myChildren": "កូនរបស់ខ្ញុំ",
+    "profile": "ប្រវត្តិរូបរបស់ខ្ញុំ",
+    "nationalExam": "ប្រឡងថ្នាក់ជាតិ"
+  },
+  "actions": {
+    "openMenu": "បើកម៉ឺនុយ",
+    "closeMenu": "បិទម៉ឺនុយ",
+    "toggleSidebar": "បិទ/បើករបារចំហៀង",
+    "collapseSidebar": "បង្រួមរបារចំហៀង",
+    "expandSidebar": "ពង្រីករបារចំហៀង",
+    "skipToContent": "រំលងទៅមាតិកាចម្បង"
+  },
+  "userMenu": {
+    "profile": "ប្រវត្តិរូបរបស់ខ្ញុំ",
+    "changePassword": "ប្តូរពាក្យសម្ងាត់",
+    "signOut": "ចាកចេញ"
+  }
+}

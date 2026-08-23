@@ -1,0 +1,58 @@
+{
+  "sections": {
+    "overview": "Overview",
+    "people": "People",
+    "academics": "Academics",
+    "operations": "Daily operations",
+    "performance": "Academic performance",
+    "communication": "Communication",
+    "system": "System",
+    "myClasses": "My classes",
+    "myChildren": "My children"
+  },
+  "items": {
+    "dashboard": "Dashboard",
+    "students": "Students",
+    "parents": "Parents",
+    "teachers": "Teachers",
+    "users": "Users",
+    "roles": "Roles & permissions",
+    "academicYears": "Academic years",
+    "gradeLevels": "Grade levels",
+    "classes": "Classes",
+    "subjects": "Subjects",
+    "rooms": "Rooms",
+    "enrollments": "Enrollments",
+    "schedules": "Schedules",
+    "attendance": "Attendance",
+    "assessments": "Assessments",
+    "exams": "Exams",
+    "grades": "Grades",
+    "reportCards": "Report cards",
+    "assignments": "Homework",
+    "behaviors": "Behavior",
+    "announcements": "Announcements",
+    "notifications": "Notifications",
+    "reports": "Reports",
+    "auditLogs": "Audit logs",
+    "settings": "Settings",
+    "myClasses": "My classes",
+    "mySchedule": "My schedule",
+    "myChildren": "My children",
+    "profile": "My profile",
+    "nationalExam": "National Exam"
+  },
+  "actions": {
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "toggleSidebar": "Toggle sidebar",
+    "collapseSidebar": "Collapse sidebar",
+    "expandSidebar": "Expand sidebar",
+    "skipToContent": "Skip to main content"
+  },
+  "userMenu": {
+    "profile": "My profile",
+    "changePassword": "Change password",
+    "signOut": "Sign out"
+  }
+}

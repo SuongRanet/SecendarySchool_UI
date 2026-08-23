@@ -1,0 +1,199 @@
+{
+  "assessments": {
+    "title": "Assessments",
+    "subtitle": "Homework, quizzes, projects and exams that make up a grade",
+    "create": "Add assessment",
+    "edit": "Edit assessment",
+    "fields": {
+      "title": "Title",
+      "description": "Description",
+      "type": "Type",
+      "class": "Class",
+      "subject": "Subject",
+      "term": "Term",
+      "maxScore": "Maximum score",
+      "weight": "Weight (%)",
+      "date": "Date",
+      "published": "Published",
+      "graded": "Graded",
+      "average": "Average"
+    },
+    "type": {
+      "HOMEWORK": "Homework",
+      "QUIZ": "Quiz",
+      "ASSIGNMENT": "Assignment",
+      "PROJECT": "Project",
+      "MIDTERM": "Midterm",
+      "FINAL": "Final",
+      "PARTICIPATION": "Participation"
+    },
+    "results": {
+      "title": "Enter results",
+      "score": "Score",
+      "absent": "Absent",
+      "feedback": "Feedback",
+      "save": "Save results",
+      "progress": "{{graded}} of {{total}} graded",
+      "outOf": "out of {{max}}",
+      "invalidScore": "Score must be between 0 and {{max}}"
+    },
+    "statistics": {
+      "title": "Statistics",
+      "average": "Average",
+      "highest": "Highest",
+      "lowest": "Lowest",
+      "passed": "Passed",
+      "failed": "Below pass mark",
+      "absent": "Absent"
+    },
+    "publish": "Publish to parents",
+    "unpublish": "Hide from parents",
+    "publishedHint": "Published results are visible to parents and students.",
+    "empty": {
+      "title": "No assessments yet",
+      "message": "Create an assessment to start recording scores."
+    },
+    "toast": {
+      "created": "Assessment created successfully",
+      "updated": "Assessment updated successfully",
+      "archived": "Assessment archived successfully",
+      "resultsSaved": "Results saved successfully",
+      "published": "Assessment published",
+      "unpublished": "Assessment hidden from parents"
+    }
+  },
+  "exams": {
+    "title": "Exams",
+    "subtitle": "Scheduled examinations and their results",
+    "create": "Add exam",
+    "edit": "Edit exam",
+    "upcoming": "Upcoming exams",
+    "fields": {
+      "title": "Title",
+      "type": "Exam type",
+      "date": "Date",
+      "startTime": "Start time",
+      "duration": "Duration (minutes)",
+      "room": "Room",
+      "maxScore": "Maximum score",
+      "instructions": "Instructions"
+    },
+    "type": {
+      "QUIZ": "Quiz",
+      "MONTHLY_TEST": "Monthly test",
+      "MIDTERM": "Midterm",
+      "FINAL": "Final"
+    },
+    "empty": {
+      "title": "No exams scheduled",
+      "message": "Schedule an exam so teachers and parents can prepare."
+    },
+    "noUpcoming": "No exams are scheduled.",
+    "toast": {
+      "created": "Exam created successfully",
+      "updated": "Exam updated successfully",
+      "archived": "Exam archived successfully",
+      "resultsSaved": "Exam results saved successfully"
+    }
+  },
+  "grades": {
+    "title": "Grades",
+    "subtitle": "Consolidated subject results",
+    "fields": {
+      "student": "Student",
+      "subject": "Subject",
+      "score": "Score",
+      "percentage": "Percentage",
+      "letterGrade": "Grade",
+      "performance": "Performance",
+      "gpa": "GPA",
+      "rank": "Rank",
+      "comment": "Teacher comment",
+      "final": "Final"
+    },
+    "calculate": "Calculate from assessments",
+    "generate": "Save calculated grades",
+    "preview": "Preview",
+    "previewHint": "Calculated from the assessment results using the grading scheme weights. Nothing is saved until you confirm.",
+    "markFinal": "Mark as final",
+    "breakdown": "Weighted breakdown",
+    "history": "Change history",
+    "historyEmpty": "This grade has not been changed yet.",
+    "changedFrom": "{{from}} → {{to}}",
+    "notCalculated": "Not calculated",
+    "empty": {
+      "title": "No grades yet",
+      "message": "Grades appear once assessment results are entered and calculated."
+    },
+    "toast": {
+      "saved": "Grade saved successfully",
+      "generated": "Grades generated successfully"
+    }
+  },
+  "gradingScheme": {
+    "title": "Grading scheme",
+    "components": "Weighting",
+    "scales": "Grade scale",
+    "weightTotal": "Total weight: {{total}}%",
+    "weightMustBe100": "Component weights must total 100%.",
+    "letterGrade": "Letter",
+    "range": "Range",
+    "gpaPoint": "GPA",
+    "performance": "Performance",
+    "remark": "Remark",
+    "save": "Save grading scheme",
+    "saved": "Grading scheme updated successfully"
+  },
+  "reportCards": {
+    "title": "Report cards",
+    "subtitle": "Term results, attendance and teacher comments in one document",
+    "generate": "Generate report cards",
+    "generateForClass": "Generate for class",
+    "publishClass": "Publish all for class",
+    "print": "Print",
+    "fields": {
+      "average": "Average",
+      "gpa": "GPA",
+      "rank": "Rank in class",
+      "classSize": "Class size",
+      "attendance": "Attendance",
+      "teacherComment": "Teacher comment",
+      "homeroomComment": "Homeroom teacher comment",
+      "principalComment": "Principal comment",
+      "subject": "Subject",
+      "score": "Score",
+      "grade": "Grade"
+    },
+    "generateDialog": {
+      "title": "Generate report cards",
+      "message": "Report cards are built from the grades and attendance already recorded for this class.",
+      "publishNow": "Publish immediately to parents"
+    },
+    "publishDialog": {
+      "title": "Publish every report card of this class?",
+      "message": "Parents will be able to see the results for {{className}}."
+    },
+    "empty": {
+      "title": "No report cards yet",
+      "message": "Generate report cards once grades have been recorded."
+    },
+    "notAvailable": "No report card has been published for this term yet.",
+    "toast": {
+      "generated": "Generated {{count}} report card(s)",
+      "updated": "Report card updated successfully",
+      "published": "Report card published",
+      "classPublished": "Published {{count}} report card(s)"
+    }
+  },
+  "reportCardStatus": {
+    "DRAFT": "Draft",
+    "PUBLISHED": "Published",
+    "ARCHIVED": "Archived"
+  },
+  "performanceLevel": {
+    "EXCELLENT": "Excellent",
+    "GOOD": "Good",
+    "FAIR": "Fair",
+    "NEEDS_IMPROVEMENT": "Needs improvement"
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "title": "Attendance",
+  "subtitle": "Daily attendance by class",
+  "takeAttendance": "Take attendance",
+  "editAttendance": "Edit attendance",
+  "status": {
+    "PRESENT": "Present",
+    "ABSENT": "Absent",
+    "LATE": "Late",
+    "EXCUSED": "Excused",
+    "LEAVE": "Leave"
+  },
+  "shortStatus": {
+    "PRESENT": "P",
+    "ABSENT": "A",
+    "LATE": "L",
+    "EXCUSED": "E",
+    "LEAVE": "LV"
+  },
+  "fields": {
+    "class": "Class",
+    "date": "Date",
+    "period": "Period",
+    "subject": "Subject",
+    "reason": "Reason",
+    "note": "Note",
+    "minutesLate": "Minutes late",
+    "recordedBy": "Recorded by",
+    "student": "Student",
+    "rollNumber": "Roll"
+  },
+  "sheet": {
+    "title": "Attendance sheet",
+    "selectClass": "Select a class to begin",
+    "markAll": "Mark all present",
+    "alreadyRecorded": "Attendance for this date was already recorded. Saving will update it.",
+    "notRecorded": "Attendance has not been recorded for this date yet.",
+    "save": "Save attendance",
+    "saving": "Saving attendance…",
+    "noStudents": "No students are enrolled in this class.",
+    "futureDate": "Attendance cannot be recorded for a future date.",
+    "reasonPlaceholder": "Select a reason",
+    "notePlaceholder": "Optional note"
+  },
+  "summary": {
+    "title": "Attendance summary",
+    "rate": "Attendance rate",
+    "totalRecords": "Records",
+    "expected": "Expected today",
+    "notRecorded": "Not recorded",
+    "perStudent": "Per student",
+    "trend": "Attendance over time",
+    "range": "Date range",
+    "from": "From",
+    "to": "To"
+  },
+  "pending": {
+    "title": "Pending attendance",
+    "message": "{{count}} class still needs attendance today",
+    "message_other": "{{count}} classes still need attendance today",
+    "allDone": "Attendance is complete for every class today.",
+    "take": "Take now"
+  },
+  "history": {
+    "title": "Attendance history",
+    "empty": "No attendance has been recorded yet."
+  },
+  "dialogs": {
+    "deleteTitle": "Delete this attendance record?",
+    "deleteMessage": "The record for {{name}} on {{date}} will be removed."
+  },
+  "toast": {
+    "recorded": "Attendance saved successfully",
+    "updated": "Attendance updated successfully",
+    "deleted": "Attendance record deleted"
+  },
+  "empty": {
+    "title": "No attendance records",
+    "message": "Attendance appears here once a teacher records it."
+  }
+}

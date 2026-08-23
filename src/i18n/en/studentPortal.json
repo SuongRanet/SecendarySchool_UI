@@ -1,0 +1,43 @@
+{
+  "title": "My school",
+  "noProfile": "This account is not linked to a student record. Please contact the school office.",
+  "dashboard": {
+    "title": "My dashboard",
+    "today": "Today",
+    "noClassToday": "You have no lessons scheduled today.",
+    "dueSoon": "Due soon",
+    "nothingDue": "Nothing is due right now.",
+    "latestGrades": "Latest grades",
+    "noGrades": "No grade has been published yet."
+  },
+  "schedule": {
+    "title": "My timetable",
+    "subtitle": "Your lessons for the week"
+  },
+  "homework": {
+    "title": "My homework",
+    "subtitle": "What you have been set, and what you have handed in",
+    "submit": "Hand in",
+    "submitted": "Your homework has been handed in",
+    "notSubmitted": "Not handed in",
+    "answer": "Your answer",
+    "answerPlaceholder": "Write your answer here",
+    "empty": "You have no homework at the moment.",
+    "overdue": "Past the due date"
+  },
+  "grades": {
+    "title": "My grades",
+    "subtitle": "Your results by subject and term",
+    "empty": "No grade has been published for you yet."
+  },
+  "attendance": {
+    "title": "My attendance",
+    "subtitle": "Your record for this academic year"
+  },
+  "nationalExam": {
+    "subtitle": "Your registration and result for the Grade 9 national examination",
+    "notRegistered": "You are not registered for the national examination",
+    "notRegisteredHint": "Only Grade 9 students sit the national examination. If you are in Grade 9 and this looks wrong, speak to your homeroom teacher.",
+    "awaitingResult": "Your result has not been published yet."
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "greeting": {
+    "morning": "Good morning, {{name}}",
+    "afternoon": "Good afternoon, {{name}}",
+    "evening": "Good evening, {{name}}"
+  },
+  "subtitle": "Here is what is happening at school today.",
+  "admin": {
+    "title": "School overview",
+    "totalStudents": "Total students",
+    "totalTeachers": "Total teachers",
+    "totalClasses": "Total classes",
+    "attendanceToday": "Attendance today",
+    "enrollmentSummary": "Enrollment summary",
+    "recentAnnouncements": "Recent announcements",
+    "upcomingExams": "Upcoming exams",
+    "enrollmentByGrade": "Enrollment by grade",
+    "attendanceOverview": "Attendance overview",
+    "studentStatus": "Student status",
+    "classDistribution": "Class distribution"
+  },
+  "principal": {
+    "title": "School performance",
+    "totalEnrollment": "Total enrollment",
+    "attendanceRate": "Attendance rate",
+    "academicPerformance": "Academic performance",
+    "classPerformance": "Class performance",
+    "teacherOverview": "Teacher overview",
+    "recentEvents": "Recent events"
+  },
+  "teacher": {
+    "title": "My teaching day",
+    "myClasses": "My classes",
+    "todaySchedule": "Today's schedule",
+    "pendingAttendance": "Pending attendance",
+    "upcomingAssessments": "Upcoming assessments",
+    "pendingGradeEntry": "Pending grade entry",
+    "assignments": "Assignments",
+    "noClassesToday": "No classes scheduled today.",
+    "takeAttendance": "Take attendance"
+  },
+  "parent": {
+    "title": "My children",
+    "selectChild": "Select a child",
+    "todaySchedule": "Today's schedule",
+    "attendanceSummary": "Attendance summary",
+    "latestGrades": "Latest grades",
+    "homework": "Homework",
+    "announcements": "Announcements",
+    "notifications": "Notifications",
+    "noChildren": "No children are linked to your account yet."
+  },
+  "student": {
+    "title": "My school day",
+    "mySchedule": "My schedule",
+    "myGrades": "My grades",
+    "myAttendance": "My attendance",
+    "myHomework": "My homework"
+  },
+  "stats": {
+    "present": "Present",
+    "absent": "Absent",
+    "late": "Late",
+    "excused": "Excused",
+    "leave": "Leave",
+    "notRecorded": "Not recorded",
+    "vsLastWeek": "vs last week",
+    "thisWeek": "This week",
+    "thisMonth": "This month",
+    "thisTerm": "This term"
+  },
+  "empty": {
+    "noData": "No data to display yet",
+    "noDataHint": "Charts appear once the school records its first data."
+  }
+}

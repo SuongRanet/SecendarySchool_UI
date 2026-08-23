@@ -1,0 +1,84 @@
+{
+  "auditLogs": {
+    "title": "Audit logs",
+    "subtitle": "A trail of every sensitive change made in the system",
+    "fields": {
+      "when": "When",
+      "user": "User",
+      "action": "Action",
+      "entity": "Record",
+      "description": "Description",
+      "changes": "Changes",
+      "ipAddress": "IP address"
+    },
+    "action": {
+      "CREATE": "Created",
+      "UPDATE": "Updated",
+      "DELETE": "Deleted",
+      "ARCHIVE": "Archived",
+      "RESTORE": "Restored",
+      "LOGIN": "Signed in",
+      "LOGOUT": "Signed out",
+      "PASSWORD_RESET": "Password reset",
+      "PUBLISH": "Published",
+      "ASSIGN": "Assigned",
+      "UNASSIGN": "Unassigned"
+    },
+    "filters": {
+      "action": "Action",
+      "entityType": "Record type",
+      "dateFrom": "From",
+      "dateTo": "To"
+    },
+    "viewChanges": "View changes",
+    "before": "Before",
+    "after": "After",
+    "noChanges": "No field-level detail was recorded for this entry.",
+    "empty": {
+      "title": "No audit entries",
+      "message": "Sensitive changes are recorded here as they happen."
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "System configuration",
+    "sections": {
+      "grading": "Grading",
+      "appearance": "Appearance",
+      "about": "About"
+    },
+    "appearance": {
+      "theme": "Theme",
+      "themeHint": "Choose the palette for this browser.",
+      "language": "Language",
+      "languageHint": "The interface language, saved on this device."
+    },
+    "about": {
+      "version": "Version",
+      "apiUrl": "API endpoint",
+      "activeYear": "Active academic year"
+    }
+  },
+  "profile": {
+    "title": "My profile",
+    "subtitle": "Your account and linked school record",
+    "sections": {
+      "account": "Account",
+      "profile": "School record",
+      "security": "Security"
+    },
+    "fields": {
+      "username": "Username",
+      "email": "Email",
+      "roles": "Roles",
+      "status": "Account status",
+      "lastLogin": "Last sign-in",
+      "profileType": "Linked record",
+      "permissions": "Permissions"
+    },
+    "noProfile": "No student, teacher or guardian record is linked to this account.",
+    "changePassword": "Change password",
+    "permissionCount": "{{count}} permission",
+    "permissionCount_other": "{{count}} permissions"
+  }
+}

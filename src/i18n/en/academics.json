@@ -1,0 +1,100 @@
+{
+  "academicYears": {
+    "title": "Academic years",
+    "subtitle": "Every academic record belongs to a year",
+    "create": "Add academic year",
+    "edit": "Edit academic year",
+    "name": "Year name",
+    "namePlaceholder": "e.g. 2026-2027",
+    "startDate": "Start date",
+    "endDate": "End date",
+    "active": "Active year",
+    "setActive": "Set as active",
+    "close": "Close year",
+    "reopen": "Reopen year",
+    "status": {
+      "UPCOMING": "Upcoming",
+      "ACTIVE": "Active",
+      "CLOSED": "Closed"
+    },
+    "dialogs": {
+      "setActiveTitle": "Set {{name}} as the active year?",
+      "setActiveMessage": "Any other active year will be deactivated. New enrollments, schedules and attendance default to this year.",
+      "closeTitle": "Close {{name}}?",
+      "closeMessage": "Closed years become read-only. Existing enrollments, grades and attendance are preserved as history."
+    },
+    "closedNotice": "This academic year is closed and its records cannot be edited.",
+    "empty": {
+      "title": "No academic years yet",
+      "message": "Create an academic year before adding classes or enrolling students."
+    }
+  },
+  "gradeLevels": {
+    "title": "Grade levels",
+    "subtitle": "The grades this school teaches",
+    "create": "Add grade level",
+    "edit": "Edit grade level",
+    "nameEn": "Name (English)",
+    "nameKh": "Name (Khmer)",
+    "order": "Display order",
+    "active": "Active",
+    "empty": {
+      "title": "No grade levels yet",
+      "message": "Add Grade 1 through Grade 6 to start building classes."
+    }
+  },
+  "classes": {
+    "title": "Classes",
+    "subtitle": "Homerooms for the selected academic year",
+    "create": "Add class",
+    "edit": "Edit class",
+    "name": "Class name",
+    "namePlaceholder": "e.g. 4A",
+    "gradeLevel": "Grade level",
+    "academicYear": "Academic year",
+    "homeroomTeacher": "Homeroom teacher",
+    "room": "Room",
+    "capacity": "Capacity",
+    "enrolled": "Enrolled",
+    "seatsLeft": "{{count}} seat left",
+    "seatsLeft_other": "{{count}} seats left",
+    "full": "Full",
+    "students": "Students in this class",
+    "schedule": "Class schedule",
+    "subjects": "Subjects and teachers",
+    "empty": {
+      "title": "No classes yet",
+      "message": "Create a class for this academic year to start enrolling students."
+    }
+  },
+  "subjects": {
+    "title": "Subjects",
+    "subtitle": "What the school teaches",
+    "create": "Add subject",
+    "edit": "Edit subject",
+    "nameEn": "Name (English)",
+    "nameKh": "Name (Khmer)",
+    "active": "Active",
+    "assignTeacher": "Assign teacher",
+    "teacher": "Teacher",
+    "noTeacher": "No teacher assigned",
+    "weight": "Weight",
+    "empty": {
+      "title": "No subjects yet",
+      "message": "Add the subjects taught at this school."
+    }
+  },
+  "rooms": {
+    "title": "Rooms",
+    "subtitle": "Classrooms and other bookable spaces",
+    "create": "Add room",
+    "edit": "Edit room",
+    "building": "Building",
+    "floor": "Floor",
+    "capacity": "Capacity",
+    "empty": {
+      "title": "No rooms yet",
+      "message": "Add the rooms available for classes and exams."
+    }
+  }
+}

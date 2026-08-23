@@ -1,0 +1,76 @@
+{
+  "greeting": {
+    "morning": "អរុណសួស្តី {{name}}",
+    "afternoon": "ទិវាសួស្តី {{name}}",
+    "evening": "សាយ័ណ្ហសួស្តី {{name}}"
+  },
+  "subtitle": "នេះជាព័ត៌មានសាលារៀនប្រចាំថ្ងៃនេះ។",
+  "admin": {
+    "title": "ទិដ្ឋភាពទូទៅសាលា",
+    "totalStudents": "សិស្សសរុប",
+    "totalTeachers": "គ្រូបង្រៀនសរុប",
+    "totalClasses": "ថ្នាក់រៀនសរុប",
+    "attendanceToday": "វត្តមានថ្ងៃនេះ",
+    "enrollmentSummary": "សេចក្តីសង្ខេបការចុះឈ្មោះ",
+    "recentAnnouncements": "សេចក្តីជូនដំណឹងថ្មីៗ",
+    "upcomingExams": "ការប្រឡងខាងមុខ",
+    "enrollmentByGrade": "ការចុះឈ្មោះតាមកម្រិតថ្នាក់",
+    "attendanceOverview": "ទិដ្ឋភាពវត្តមាន",
+    "studentStatus": "ស្ថានភាពសិស្ស",
+    "classDistribution": "ការបែងចែកថ្នាក់"
+  },
+  "principal": {
+    "title": "លទ្ធផលសាលា",
+    "totalEnrollment": "ការចុះឈ្មោះសរុប",
+    "attendanceRate": "អត្រាវត្តមាន",
+    "academicPerformance": "លទ្ធផលសិក្សា",
+    "classPerformance": "លទ្ធផលថ្នាក់",
+    "teacherOverview": "ទិដ្ឋភាពគ្រូបង្រៀន",
+    "recentEvents": "ព្រឹត្តិការណ៍ថ្មីៗ"
+  },
+  "teacher": {
+    "title": "ថ្ងៃបង្រៀនរបស់ខ្ញុំ",
+    "myClasses": "ថ្នាក់របស់ខ្ញុំ",
+    "todaySchedule": "កាលវិភាគថ្ងៃនេះ",
+    "pendingAttendance": "វត្តមានដែលរង់ចាំ",
+    "upcomingAssessments": "ការវាយតម្លៃខាងមុខ",
+    "pendingGradeEntry": "ពិន្ទុដែលរង់ចាំបញ្ចូល",
+    "assignments": "កិច្ចការ",
+    "noClassesToday": "គ្មានថ្នាក់រៀនថ្ងៃនេះទេ។",
+    "takeAttendance": "កត់ត្រាវត្តមាន"
+  },
+  "parent": {
+    "title": "កូនរបស់ខ្ញុំ",
+    "selectChild": "ជ្រើសរើសកូន",
+    "todaySchedule": "កាលវិភាគថ្ងៃនេះ",
+    "attendanceSummary": "សេចក្តីសង្ខេបវត្តមាន",
+    "latestGrades": "ពិន្ទុថ្មីបំផុត",
+    "homework": "កិច្ចការផ្ទះ",
+    "announcements": "សេចក្តីជូនដំណឹង",
+    "notifications": "ការជូនដំណឹង",
+    "noChildren": "មិនទាន់មានកូនភ្ជាប់ជាមួយគណនីរបស់អ្នកទេ។"
+  },
+  "student": {
+    "title": "ថ្ងៃសិក្សារបស់ខ្ញុំ",
+    "mySchedule": "កាលវិភាគរបស់ខ្ញុំ",
+    "myGrades": "ពិន្ទុរបស់ខ្ញុំ",
+    "myAttendance": "វត្តមានរបស់ខ្ញុំ",
+    "myHomework": "កិច្ចការផ្ទះរបស់ខ្ញុំ"
+  },
+  "stats": {
+    "present": "មានវត្តមាន",
+    "absent": "អវត្តមាន",
+    "late": "មកយឺត",
+    "excused": "មានច្បាប់",
+    "leave": "សម្រាក",
+    "notRecorded": "មិនទាន់កត់ត្រា",
+    "vsLastWeek": "ធៀបនឹងសប្តាហ៍មុន",
+    "thisWeek": "សប្តាហ៍នេះ",
+    "thisMonth": "ខែនេះ",
+    "thisTerm": "ឆមាសនេះ"
+  },
+  "empty": {
+    "noData": "មិនទាន់មានទិន្នន័យបង្ហាញ",
+    "noDataHint": "គំនូសតាងនឹងបង្ហាញនៅពេលសាលាកត់ត្រាទិន្នន័យដំបូង។"
+  }
+}

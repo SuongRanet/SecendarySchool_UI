@@ -1,0 +1,110 @@
+{
+  "enrollments": {
+    "title": "Enrollments",
+    "subtitle": "Which student sits in which class, for every academic year",
+    "create": "Enroll student",
+    "fields": {
+      "student": "Student",
+      "academicYear": "Academic year",
+      "class": "Class",
+      "gradeLevel": "Grade",
+      "rollNumber": "Roll number",
+      "enrolledDate": "Enrolled on",
+      "endDate": "Ended on",
+      "status": "Status",
+      "remarks": "Remarks"
+    },
+    "actions": {
+      "transfer": "Transfer to another class",
+      "withdraw": "End enrollment",
+      "promote": "Promote to next year"
+    },
+    "transferDialog": {
+      "title": "Transfer {{name}}",
+      "message": "The current enrollment is closed as transferred and a new one is created, so the full path through the school stays visible.",
+      "newClass": "New class",
+      "effectiveDate": "Effective from"
+    },
+    "withdrawDialog": {
+      "title": "End the enrollment of {{name}}?",
+      "message": "The record is kept as history — attendance and grades are not deleted.",
+      "endDate": "End date",
+      "reason": "Reason"
+    },
+    "promote": {
+      "title": "Promote students to the next academic year",
+      "subtitle": "Map each class of the current year to its class in the next year.",
+      "fromYear": "From academic year",
+      "toYear": "To academic year",
+      "mapping": "Class mapping",
+      "addMapping": "Add class mapping",
+      "fromClass": "From class",
+      "toClass": "To class",
+      "run": "Promote students",
+      "result": "Promoted {{promoted}} student(s); skipped {{skipped}}.",
+      "hint": "Previous enrollments are completed rather than edited, so each year keeps its own record."
+    },
+    "capacity": "{{enrolled}} / {{capacity}} enrolled",
+    "classFull": "This class is full.",
+    "empty": {
+      "title": "No enrollments yet",
+      "message": "Enroll a student into a class to start the academic year."
+    },
+    "toast": {
+      "created": "Student enrolled successfully",
+      "transferred": "Student transferred successfully",
+      "withdrawn": "Enrollment ended successfully",
+      "updated": "Enrollment updated successfully",
+      "promoted": "Students promoted successfully"
+    }
+  },
+  "schedules": {
+    "title": "Schedules",
+    "subtitle": "The weekly timetable for classes, teachers and rooms",
+    "create": "Add period",
+    "edit": "Edit period",
+    "views": {
+      "class": "By class",
+      "teacher": "By teacher",
+      "room": "By room",
+      "student": "My timetable"
+    },
+    "fields": {
+      "class": "Class",
+      "subject": "Subject",
+      "teacher": "Teacher",
+      "room": "Room",
+      "day": "Day",
+      "period": "Period",
+      "startTime": "Start time",
+      "endTime": "End time",
+      "notes": "Notes"
+    },
+    "conflicts": {
+      "title": "Scheduling conflict",
+      "teacher": "Teacher conflict",
+      "class": "Class conflict",
+      "room": "Room conflict",
+      "blocked": "This period cannot be saved until the conflict is resolved.",
+      "warningRoom": "The room is already in use at this time. Save anyway?",
+      "saveAnyway": "Save anyway",
+      "none": "No conflicts — this slot is free."
+    },
+    "noSelection": "Select a class, teacher or room to view its timetable.",
+    "emptyDay": "No periods",
+    "today": "Today",
+    "empty": {
+      "title": "No timetable yet",
+      "message": "Add the first period to build the weekly timetable."
+    },
+    "toast": {
+      "created": "Period added successfully",
+      "updated": "Period updated successfully",
+      "deleted": "Period removed successfully"
+    },
+    "dialogs": {
+      "deleteTitle": "Remove this period?",
+      "deleteMessage": "{{subject}} on {{day}} at {{time}} will be removed from the timetable."
+    }
+  }
+}

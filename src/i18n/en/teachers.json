@@ -1,0 +1,98 @@
+{
+  "title": "Teachers",
+  "subtitle": "Staff profiles, subjects and class assignments",
+  "create": "Add teacher",
+  "edit": "Edit teacher",
+  "details": "Teacher details",
+  "fields": {
+    "teacherCode": "Staff ID",
+    "firstNameEn": "First name",
+    "lastNameEn": "Last name",
+    "firstNameKh": "First name (Khmer)",
+    "lastNameKh": "Last name (Khmer)",
+    "gender": "Gender",
+    "dateOfBirth": "Date of birth",
+    "nationalId": "National ID",
+    "phoneNumber": "Phone number",
+    "email": "Email",
+    "address": "Address",
+    "qualification": "Qualification",
+    "specialization": "Specialization",
+    "hireDate": "Hire date",
+    "status": "Status",
+    "notes": "Notes",
+    "subjects": "Subjects",
+    "classes": "Classes",
+    "students": "Students",
+    "account": "Login account"
+  },
+  "placeholders": {
+    "search": "Search by name, staff ID or phone…",
+    "codeAuto": "Generated automatically when left empty",
+    "qualification": "e.g. Bachelor of Education"
+  },
+  "filters": {
+    "status": "Status",
+    "subject": "Subject",
+    "hasAccount": "Account"
+  },
+  "status": {
+    "ACTIVE": "Active",
+    "INACTIVE": "Inactive",
+    "ON_LEAVE": "On leave",
+    "RESIGNED": "Resigned"
+  },
+  "tabs": {
+    "profile": "Profile",
+    "assignments": "Classes & subjects",
+    "schedule": "Schedule"
+  },
+  "sections": {
+    "personal": "Personal information",
+    "contact": "Contact",
+    "employment": "Employment",
+    "subjects": "Subjects taught",
+    "accountOptional": "Login account (optional)"
+  },
+  "assignments": {
+    "title": "Classes and subjects",
+    "empty": "This teacher is not assigned to any class yet.",
+    "homeroom": "Homeroom",
+    "assignSubjects": "Assign subjects"
+  },
+  "account": {
+    "create": "Create login account",
+    "existing": "Signed in as {{username}}",
+    "none": "No login account",
+    "isHomeroom": "Also grant homeroom teacher permissions"
+  },
+  "dialogs": {
+    "archiveTitle": "Archive this teacher?",
+    "archiveMessage": "{{name}} will be removed from the teacher list. Their past classes and grades are preserved.",
+    "homeroomBlocked": "Reassign the homeroom of an open class before archiving this teacher."
+  },
+  "empty": {
+    "title": "No teachers yet",
+    "message": "Add the first teacher so classes and subjects can be assigned."
+  },
+  "toast": {
+    "created": "Teacher created successfully",
+    "updated": "Teacher updated successfully",
+    "archived": "Teacher archived successfully",
+    "subjectsAssigned": "Subjects assigned successfully",
+    "accountCreated": "Login account created successfully"
+  },
+  "myClass": {
+    "backToClasses": "My classes",
+    "students": "Students",
+    "mySubjects": "Subjects I teach",
+    "schedule": "Class schedule",
+    "takeAttendance": "Take attendance",
+    "enterGrades": "Enter grades",
+    "assignments": "Homework",
+    "noStudents": "No student is enrolled in this class yet.",
+    "noSubjects": "You do not teach any subject in this class.",
+    "noSchedule": "No timetable has been published for this class yet.",
+    "homeroomNotice": "You are the homeroom teacher of this class."
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "title": "Users",
+  "subtitle": "Accounts, roles and access to the system",
+  "create": "Add user",
+  "edit": "Edit user",
+  "details": "User details",
+  "fields": {
+    "username": "Username",
+    "email": "Email",
+    "password": "Password",
+    "status": "Account status",
+    "roles": "Roles",
+    "lastLogin": "Last sign-in",
+    "emailVerified": "Email verified",
+    "profileType": "Profile",
+    "createdAt": "Created"
+  },
+  "placeholders": {
+    "search": "Search by username, email or name…",
+    "username": "e.g. sokha.chan",
+    "email": "name@school.local"
+  },
+  "filters": {
+    "status": "Status",
+    "role": "Role"
+  },
+  "status": {
+    "ACTIVE": "Active",
+    "INACTIVE": "Inactive",
+    "SUSPENDED": "Suspended",
+    "PENDING_VERIFICATION": "Pending verification"
+  },
+  "roles": {
+    "SUPER_ADMIN": "Super administrator",
+    "ADMIN": "School administrator",
+    "PRINCIPAL": "Principal",
+    "TEACHER": "Teacher",
+    "HOMEROOM_TEACHER": "Homeroom teacher",
+    "PARENT": "Parent / guardian",
+    "STUDENT": "Student",
+    "ACCOUNTANT": "Accountant"
+  },
+  "profileType": {
+    "TEACHER": "Teacher",
+    "STUDENT": "Student",
+    "PARENT": "Parent",
+    "NONE": "No linked profile"
+  },
+  "actions": {
+    "assignRoles": "Assign roles",
+    "resetPassword": "Reset password",
+    "disable": "Disable account",
+    "enable": "Enable account",
+    "suspend": "Suspend account",
+    "archive": "Archive user"
+  },
+  "dialogs": {
+    "disableTitle": "Disable this account?",
+    "disableMessage": "{{name}} will no longer be able to sign in. Their records are preserved.",
+    "enableTitle": "Enable this account?",
+    "enableMessage": "{{name}} will be able to sign in again.",
+    "archiveTitle": "Archive this user?",
+    "archiveMessage": "{{name}} will be removed from the user list and signed out of every device.",
+    "resetPasswordTitle": "Reset password",
+    "resetPasswordMessage": "Leave the field empty to generate a temporary password for {{name}}.",
+    "temporaryPassword": "Temporary password",
+    "temporaryPasswordHint": "Copy this password now — it will not be shown again."
+  },
+  "empty": {
+    "title": "No users yet",
+    "message": "Create the first account to give someone access to the system."
+  },
+  "toast": {
+    "created": "User created successfully",
+    "updated": "User updated successfully",
+    "statusChanged": "Account status updated",
+    "rolesAssigned": "Roles updated successfully",
+    "passwordReset": "Password reset successfully",
+    "archived": "User archived successfully"
+  },
+  "rolesPage": {
+    "title": "Roles & permissions",
+    "subtitle": "What each role is allowed to do",
+    "permissions": "Permissions",
+    "userCount": "{{count}} user",
+    "userCount_other": "{{count}} users",
+    "systemRole": "System role",
+    "superAdminNotice": "The super administrator always holds every permission and cannot be edited.",
+    "savePermissions": "Save permissions",
+    "permissionsSaved": "Permissions updated successfully",
+    "selectModule": "Select a module"
+  }
+}
