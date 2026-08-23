@@ -13,7 +13,8 @@
     "lastLogin": "ការចូលចុងក្រោយ",
     "emailVerified": "អ៊ីមែលបានផ្ទៀងផ្ទាត់",
     "profileType": "ប្រវត្តិរូប",
-    "createdAt": "បានបង្កើត"
+    "createdAt": "បានបង្កើត",
+    "account": "គណនីចូលប្រើ"
   },
   "placeholders": {
     "search": "ស្វែងរកតាមឈ្មោះអ្នកប្រើ អ៊ីមែល ឬឈ្មោះ…",
@@ -36,9 +37,8 @@
     "PRINCIPAL": "នាយកសាលា",
     "TEACHER": "គ្រូបង្រៀន",
     "HOMEROOM_TEACHER": "គ្រូបន្ទុកថ្នាក់",
-    "PARENT": "មាតាបិតា/អាណាព្យាបាល",
-    "STUDENT": "សិស្ស",
-    "ACCOUNTANT": "គណនេយ្យករ"
+    "PARENT": "អាណាព្យាបាល",
+    "STUDENT": "សិស្ស"
   },
   "profileType": {
     "TEACHER": "គ្រូបង្រៀន",

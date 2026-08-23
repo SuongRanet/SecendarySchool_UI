@@ -141,13 +141,6 @@ export const ParentDashboardPage = () => {
           tone={selected.summary.pendingAssignments > 0 ? 'warning' : 'success'}
           to={ROUTES.parent.homework}
         />
-        <StatCard
-          label={t('dashboard:parent.notifications')}
-          value={formatNumber(selected.summary.unreadNotifications, language)}
-          icon={<Megaphone className="size-5" />}
-          tone="info"
-          to={ROUTES.notifications}
-        />
       </div>
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">

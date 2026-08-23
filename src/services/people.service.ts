@@ -52,6 +52,7 @@ export interface TeacherPayload {
 }
 
 export interface TeacherListQuery extends ListQuery {
+  includeArchived?: boolean;
   status?: StaffStatus;
   subjectId?: number;
   classId?: number;
@@ -75,6 +76,8 @@ export const teacherService = {
     api.patch<Teacher>(`/teachers/${id}`, payload),
 
   archive: (id: number): Promise<null> => api.delete<null>(`/teachers/${id}`),
+
+  restore: (id: number): Promise<Teacher> => api.post<Teacher>(`/teachers/${id}/restore`),
 
   assignSubjects: (id: number, subjectIds: number[]): Promise<Teacher> =>
     api.put<Teacher>(`/teachers/${id}/subjects`, { subjectIds }),
@@ -223,6 +226,7 @@ export interface ParentPayload {
 }
 
 export interface ParentListQuery extends ListQuery {
+  includeArchived?: boolean;
   isActive?: boolean;
   studentId?: number;
   hasAccount?: boolean;
@@ -249,6 +253,8 @@ export const parentService = {
   ): Promise<Parent> => api.patch<Parent>(`/parents/${id}`, payload),
 
   archive: (id: number): Promise<null> => api.delete<null>(`/parents/${id}`),
+
+  restore: (id: number): Promise<Parent> => api.post<Parent>(`/parents/${id}/restore`),
 
   listChildren: (id: number): Promise<ParentChild[]> =>
     api.get<ParentChild[]>(`/parents/${id}/children`),

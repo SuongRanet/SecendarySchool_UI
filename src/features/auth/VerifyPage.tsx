@@ -19,7 +19,7 @@ export const VerifyPage = () => {
 
   useEffect(() => {
     if (!token) {
-      setMessage(t('auth:resetPassword.missingToken'));
+      setMessage(t('auth:verify.missingToken'));
       return;
     }
 

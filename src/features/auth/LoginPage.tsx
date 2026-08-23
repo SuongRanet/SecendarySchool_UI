@@ -16,7 +16,7 @@ import type { LoginFormValues } from './auth.schemas';
 
 /** Where a user lands right after signing in, based on their primary role. */
 export const landingRouteFor = (user: AuthProfile): string => {
-  if (user.roles.some((role) => ['SUPER_ADMIN', 'ADMIN', 'PRINCIPAL', 'ACCOUNTANT'].includes(role))) {
+  if (user.roles.some((role) => ['SUPER_ADMIN', 'ADMIN', 'PRINCIPAL'].includes(role))) {
     return ROUTES.dashboard;
   }
 

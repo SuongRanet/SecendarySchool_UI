@@ -44,7 +44,7 @@ export const DashboardShell = ({ navigation }: DashboardShellProps) => {
         <Topbar onOpenSidebar={() => setSidebarOpen(true)} />
 
         <main id="main-content" className="flex-1 overflow-y-auto">
-          <div className="mx-auto w-full max-w-[90rem] p-4 sm:p-6">
+          <div className="mx-auto w-full max-width: 90rem p-4 sm:p-6">
             <Outlet />
           </div>
         </main>

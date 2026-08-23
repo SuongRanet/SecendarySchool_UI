@@ -11,7 +11,7 @@ export interface SidebarProps {
   onClose: () => void;
 }
 
-const APP_NAME = import.meta.env.VITE_APP_NAME ?? 'Primary School';
+const APP_NAME = import.meta.env.VITE_APP_NAME ?? 'Hun Sen Turi';
 
 export const Sidebar = ({ sections, open, onClose }: SidebarProps) => {
   const { t } = useTranslation(['navigation', 'common']);

@@ -50,6 +50,8 @@ export interface ParentFormModalProps {
 export const ParentFormModal = ({ open, parent, onClose, onSaved }: ParentFormModalProps) => {
   const { t } = useTranslation(['students', 'common', 'validation', 'users']);
   const isEditing = parent !== null;
+  // An existing login is changed from the user administration screen, not here.
+  const canAddAccount = !parent?.username;
 
   const form = useForm<FormValues>({
     resolver: zodResolver(buildSchema(t)),
@@ -127,6 +129,17 @@ export const ParentFormModal = ({ open, parent, onClose, onSaved }: ParentFormMo
     try {
       if (parent) {
         await parentService.update(parent.id, base);
+
+        // A login asked for while editing is created against the saved record,
+        // which is what makes "add the account later" work.
+        if (canAddAccount && values.createAccount && values.username && values.accountEmail && values.password) {
+          await parentService.createAccount(parent.id, {
+            username: values.username,
+            email: values.accountEmail,
+            password: values.password,
+          });
+        }
+
         toast.success(t('common:toast.updated'));
       } else {
         const payload: ParentPayload = { ...base };
@@ -242,7 +255,9 @@ export const ParentFormModal = ({ open, parent, onClose, onSaved }: ParentFormMo
           {({ id }) => <Input id={id} {...form.register('address')} />}
         </FormField>
 
-        {!isEditing ? (
+        {/* A login can be added later: the section stays available while editing,
+            until the record actually has an account. */}
+        {canAddAccount ? (
           <>
             <Checkbox
               id="createParentAccount"

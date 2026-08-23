@@ -1,6 +1,6 @@
 {
-  "appName": "Primary School",
-  "appFullName": "Primary School Management System",
+  "appName": "Hun Sen Turi",
+  "appFullName": "Hun Sen Turi Secondary School Management System",
   "actions": {
     "add": "Add",
     "create": "Create",
@@ -91,7 +91,8 @@
     "average": "Average",
     "percentage": "Percentage",
     "language": "Language",
-    "theme": "Theme"
+    "theme": "Theme",
+    "archived": "Archived"
   },
   "gender": {
     "MALE": "Male",
@@ -137,5 +138,10 @@
     "SATURDAY": "Saturday",
     "SUNDAY": "Sunday"
   },
-  "tagline": "One place for students, teachers and parents — enrollment, schedules, attendance, grades and report cards, with every academic year preserved as history."
+  "tagline": "One place for students, teachers and parents — enrollment, schedules, attendance, grades and report cards, with every academic year preserved as history.",
+  "filters": {
+    "activeOnly": "Active only",
+    "includeArchived": "Include archived"
+  },
+  "grades": "Grade 7 · Grade 8 · Grade 9"
 }

@@ -46,7 +46,10 @@ export const SearchInput = ({
 
   return (
     <Input
-      type="search"
+      // Deliberately a text input, not `type="search"`: the browser adds its own
+      // clear button to a search field, which sat next to the one below and gave
+      // the box two X buttons.
+      type="text"
       value={draft}
       autoFocus={autoFocus}
       onChange={(event) => setDraft(event.target.value)}

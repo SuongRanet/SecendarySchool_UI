@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Archive, Eye, Pencil, Plus } from 'lucide-react';
+import { Archive, ArchiveRestore, Eye, Pencil, Plus } from 'lucide-react';
 import { PERMISSIONS } from '@/constants/permissions';
 import { ROUTES } from '@/constants/routes';
 import { studentService } from '@/services/people.service';
@@ -58,6 +58,7 @@ export const StudentsPage = () => {
         sortOrder: query.sortOrder,
         status: (query.filters.status as StudentStatus) || undefined,
         gender: (query.filters.gender as Gender) || undefined,
+        includeArchived: query.filters.archived === 'true' || undefined,
         gradeLevelId: query.filters.gradeLevelId ? Number(query.filters.gradeLevelId) : undefined,
         classId: query.filters.classId ? Number(query.filters.classId) : undefined,
       }),
@@ -66,7 +67,7 @@ export const StudentsPage = () => {
 
   const list = useListQuery<Student>({
     fetcher,
-    filterKeys: ['status', 'gender', 'gradeLevelId', 'classId'],
+    filterKeys: ['status', 'gender', 'gradeLevelId', 'classId', 'archived'],
     defaultSortBy: 'first_name_en',
     defaultSortOrder: 'asc',
   });
@@ -168,14 +169,26 @@ export const StudentsPage = () => {
               : []),
             ...(canArchive
               ? [
-                  {
-                    key: 'archive',
-                    label: t('common:actions.archive'),
-                    icon: <Archive className="size-4" />,
-                    tone: 'danger' as const,
-                    separatorBefore: true,
-                    onSelect: () => setConfirmArchive(student),
-                  },
+                  student.archivedAt
+                    ? {
+                        key: 'restore',
+                        label: t('common:actions.restore'),
+                        icon: <ArchiveRestore className="size-4" />,
+                        separatorBefore: true,
+                        onSelect: () =>
+                          void run(
+                            () => studentService.restore(student.id),
+                            t('students:toast.restored'),
+                          ).then(() => list.refresh()),
+                      }
+                    : {
+                        key: 'archive',
+                        label: t('common:actions.archive'),
+                        icon: <Archive className="size-4" />,
+                        tone: 'danger' as const,
+                        separatorBefore: true,
+                        onSelect: () => setConfirmArchive(student),
+                      },
                 ]
               : []),
           ]}
@@ -243,6 +256,14 @@ export const StudentsPage = () => {
                 value: status,
                 label: t(`students:status.${status}`),
               }))}
+            />
+
+            <Select
+              className="w-40"
+              value={list.query.filters.archived ?? ''}
+              onChange={(event) => list.setFilter('archived', event.target.value)}
+              placeholder={t('common:filters.activeOnly')}
+              options={[{ value: 'true', label: t('common:filters.includeArchived') }]}
             />
 
             <Select

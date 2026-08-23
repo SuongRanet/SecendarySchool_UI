@@ -2,7 +2,6 @@
 export const ROUTES = {
   login: '/login',
   forgotPassword: '/forgot-password',
-  resetPassword: '/reset-password',
   verify: '/verify',
 
   dashboard: '/dashboard',
@@ -42,7 +41,6 @@ export const ROUTES = {
   assignments: '/assignments',
   behaviors: '/behaviors',
   announcements: '/announcements',
-  notifications: '/notifications',
   auditLogs: '/audit-logs',
   settings: '/settings',
   profile: '/profile',

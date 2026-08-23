@@ -48,7 +48,7 @@ describe('usePermission', () => {
     expect(result.current.isElevated()).toBe(true);
   });
 
-  it.each(['TEACHER', 'PARENT', 'STUDENT', 'ACCOUNTANT'] as const)(
+  it.each(['TEACHER', 'PARENT', 'STUDENT'] as const)(
     'isElevated() is false for %s',
     (role) => {
       signIn(buildProfile({ roles: [role] }));

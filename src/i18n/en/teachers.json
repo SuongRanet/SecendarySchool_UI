@@ -80,7 +80,8 @@
     "updated": "Teacher updated successfully",
     "archived": "Teacher archived successfully",
     "subjectsAssigned": "Subjects assigned successfully",
-    "accountCreated": "Login account created successfully"
+    "accountCreated": "Login account created successfully",
+    "restored": "Teacher restored successfully"
   },
   "myClass": {
     "backToClasses": "My classes",

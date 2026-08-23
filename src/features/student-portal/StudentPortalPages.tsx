@@ -285,7 +285,7 @@ export const StudentGradesPage = () => {
     },
     {
       key: 'letter',
-      header: t('performance:grades.fields.letter'),
+      header: t('performance:grades.fields.letterGrade'),
       align: 'center',
       render: (grade) => grade.letterGrade ?? '—',
     },

@@ -1,7 +1,6 @@
 import type { LucideIcon } from 'lucide-react';
 import {
   BarChart3,
-  BellRing,
   BookOpen,
   CalendarDays,
   CalendarRange,
@@ -209,12 +208,6 @@ export const ADMIN_NAVIGATION: NavSection[] = [
         icon: Megaphone,
         permissions: [PERMISSIONS.ANNOUNCEMENTS_VIEW],
       },
-      {
-        key: 'notifications',
-        labelKey: 'items.notifications',
-        to: '/notifications',
-        icon: BellRing,
-      },
     ],
   },
   {
@@ -311,12 +304,6 @@ export const TEACHER_NAVIGATION: NavSection[] = [
         to: '/teacher/announcements',
         icon: Megaphone,
       },
-      {
-        key: 'notifications',
-        labelKey: 'items.notifications',
-        to: '/teacher/notifications',
-        icon: BellRing,
-      },
     ],
   },
 ];
@@ -377,12 +364,6 @@ export const PARENT_NAVIGATION: NavSection[] = [
         labelKey: 'items.announcements',
         to: '/parent/announcements',
         icon: Megaphone,
-      },
-      {
-        key: 'notifications',
-        labelKey: 'items.notifications',
-        to: '/parent/notifications',
-        icon: BellRing,
       },
     ],
   },
@@ -446,12 +427,6 @@ export const STUDENT_NAVIGATION: NavSection[] = [
         labelKey: 'items.announcements',
         to: '/student/announcements',
         icon: Megaphone,
-      },
-      {
-        key: 'notifications',
-        labelKey: 'items.notifications',
-        to: '/student/notifications',
-        icon: BellRing,
       },
     ],
   },

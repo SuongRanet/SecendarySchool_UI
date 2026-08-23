@@ -20,7 +20,7 @@ import { StatusBadge } from '@/components/ui/StatusBadge';
 import { Textarea } from '@/components/ui/Select';
 import { ErrorState, LoadingState } from '@/components/feedback/States';
 
-const APP_NAME = import.meta.env.VITE_APP_NAME ?? 'Primary School';
+const APP_NAME = import.meta.env.VITE_APP_NAME ?? 'Hun Sen Turi';
 
 export const ReportCardDetailPage = () => {
   const { t } = useTranslation(['performance', 'common', 'students']);

@@ -15,7 +15,7 @@ export const DashboardPage = () => {
     return <Navigate to={ROUTES.login} replace />;
   }
 
-  if (user.roles.some((role) => ['SUPER_ADMIN', 'ADMIN', 'ACCOUNTANT'].includes(role))) {
+  if (user.roles.some((role) => ['SUPER_ADMIN', 'ADMIN'].includes(role))) {
     return <AdminDashboardView />;
   }
 

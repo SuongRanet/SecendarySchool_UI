@@ -80,7 +80,11 @@ export const Dropdown = ({
                 type="button"
                 role="menuitem"
                 disabled={item.disabled}
-                onClick={() => {
+                onClick={(event) => {
+                  // The menu often sits inside a clickable table row. Without
+                  // this the click bubbles up, the row navigates to the detail
+                  // page, and the action the user picked never runs.
+                  event.stopPropagation();
                   setOpen(false);
                   item.onSelect?.();
                 }}

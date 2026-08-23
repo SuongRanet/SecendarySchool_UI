@@ -109,7 +109,8 @@
       "gpa": "GPA",
       "rank": "Rank",
       "comment": "Teacher comment",
-      "final": "Final"
+      "final": "Final",
+      "term": "Term"
     },
     "calculate": "Calculate from assessments",
     "generate": "Save calculated grades",

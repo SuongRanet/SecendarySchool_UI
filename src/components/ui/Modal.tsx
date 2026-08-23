@@ -79,6 +79,18 @@ export const Modal = ({
     [onClose],
   );
 
+  /**
+   * Opening and closing: remember where focus was, lock the page behind the
+   * dialog, move focus inside, and put it back on the way out.
+   *
+   * This deliberately depends on `open` alone. It used to depend on the key
+   * handler too, whose identity changes whenever the caller passes an inline
+   * `onClose` — which nearly every page does. Each keystroke in a dialog field
+   * re-rendered the page, gave the effect a new dependency, and ran the cleanup
+   * and the setup again: focus was restored to the element behind the dialog and
+   * then dropped onto the first focusable thing inside it, the close button. The
+   * user was thrown out of the field they were typing in, one character in.
+   */
   useEffect(() => {
     if (!open) {
       return;
@@ -87,7 +99,6 @@ export const Modal = ({
     previouslyFocused.current = document.activeElement as HTMLElement | null;
     const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
-    document.addEventListener('keydown', handleKeyDown, true);
 
     const timer = window.setTimeout(() => {
       const focusable = dialogRef.current?.querySelector<HTMLElement>(FOCUSABLE);
@@ -96,10 +107,21 @@ export const Modal = ({
 
     return () => {
       window.clearTimeout(timer);
-      document.removeEventListener('keydown', handleKeyDown, true);
       document.body.style.overflow = originalOverflow;
       previouslyFocused.current?.focus();
     };
+  }, [open]);
+
+  // The key handler is registered separately, so a new handler identity swaps
+  // the listener without disturbing focus.
+  useEffect(() => {
+    if (!open) {
+      return;
+    }
+
+    document.addEventListener('keydown', handleKeyDown, true);
+
+    return () => document.removeEventListener('keydown', handleKeyDown, true);
   }, [open, handleKeyDown]);
 
   if (!open) {

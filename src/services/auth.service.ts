@@ -7,7 +7,8 @@ export interface LoginPayload {
 }
 
 export interface ResetPasswordPayload {
-  token: string;
+  email: string;
+  code: string;
   password: string;
   confirmPassword: string;
 }
@@ -27,8 +28,16 @@ export const authService = {
 
   me: (): Promise<AuthProfile> => api.get<AuthProfile>('/auth/me'),
 
-  forgotPassword: (email: string): Promise<{ token?: string }> =>
-    api.post<{ token?: string }>('/auth/forgot-password', { email }),
+  /**
+   * Starts a reset. The reply is the same whether or not the address is
+   * registered; `code` comes back only outside production, so the flow can be
+   * finished without a mail server.
+   */
+  forgotPassword: (email: string): Promise<{ sentTo: string; code?: string }> =>
+    api.post<{ sentTo: string; code?: string }>('/auth/forgot-password', { email }),
+
+  verifyResetCode: (email: string, code: string): Promise<{ verified: true }> =>
+    api.post<{ verified: true }>('/auth/verify-reset-code', { email, code }),
 
   resetPassword: (payload: ResetPasswordPayload): Promise<null> =>
     api.post<null>('/auth/reset-password', payload),

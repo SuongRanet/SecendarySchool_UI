@@ -117,7 +117,6 @@ describe('landingRouteFor', () => {
     ['SUPER_ADMIN', '/dashboard'],
     ['ADMIN', '/dashboard'],
     ['PRINCIPAL', '/dashboard'],
-    ['ACCOUNTANT', '/dashboard'],
   ] as const)('sends %s to the administrative dashboard', (role, expected) => {
     expect(landingRouteFor(buildProfile({ roles: [role] }))).toBe(expected);
   });

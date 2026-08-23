@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Archive, Eye, Pencil, Plus } from 'lucide-react';
+import { Archive, ArchiveRestore, Eye, Pencil, Plus } from 'lucide-react';
 import { PERMISSIONS } from '@/constants/permissions';
 import { ROUTES } from '@/constants/routes';
 import { parentService } from '@/services/people.service';
@@ -52,13 +52,14 @@ export const ParentsPage = () => {
         sortBy: query.sortBy,
         sortOrder: query.sortOrder,
         hasAccount: query.filters.hasAccount ? query.filters.hasAccount === 'true' : undefined,
+        includeArchived: query.filters.archived === 'true' || undefined,
       }),
     [],
   );
 
   const list = useListQuery<Parent>({
     fetcher,
-    filterKeys: ['hasAccount'],
+    filterKeys: ['hasAccount', 'archived'],
     defaultSortBy: 'first_name_en',
     defaultSortOrder: 'asc',
   });
@@ -149,14 +150,26 @@ export const ParentsPage = () => {
               : []),
             ...(canArchive
               ? [
-                  {
-                    key: 'archive',
-                    label: t('common:actions.archive'),
-                    icon: <Archive className="size-4" />,
-                    tone: 'danger' as const,
-                    separatorBefore: true,
-                    onSelect: () => setConfirmArchive(parent),
-                  },
+                  parent.archivedAt
+                    ? {
+                        key: 'restore',
+                        label: t('common:actions.restore'),
+                        icon: <ArchiveRestore className="size-4" />,
+                        separatorBefore: true,
+                        onSelect: () =>
+                          void run(
+                            () => parentService.restore(parent.id),
+                            t('common:toast.restored'),
+                          ).then(() => list.refresh()),
+                      }
+                    : {
+                        key: 'archive',
+                        label: t('common:actions.archive'),
+                        icon: <Archive className="size-4" />,
+                        tone: 'danger' as const,
+                        separatorBefore: true,
+                        onSelect: () => setConfirmArchive(parent),
+                      },
                 ]
               : []),
           ]}
@@ -192,16 +205,26 @@ export const ParentsPage = () => {
         isFiltered={list.isFiltered}
         onClearFilters={list.clearFilters}
         filters={
-          <Select
-            className="w-44"
-            value={list.query.filters.hasAccount ?? ''}
-            onChange={(event) => list.setFilter('hasAccount', event.target.value)}
-            placeholder={t('users:fields.account')}
-            options={[
-              { value: 'true', label: t('common:labels.yes') },
-              { value: 'false', label: t('common:labels.no') },
-            ]}
-          />
+          <>
+            <Select
+              className="w-40"
+              value={list.query.filters.archived ?? ''}
+              onChange={(event) => list.setFilter('archived', event.target.value)}
+              placeholder={t('common:filters.activeOnly')}
+              options={[{ value: 'true', label: t('common:filters.includeArchived') }]}
+            />
+
+            <Select
+              className="w-44"
+              value={list.query.filters.hasAccount ?? ''}
+              onChange={(event) => list.setFilter('hasAccount', event.target.value)}
+              placeholder={t('users:fields.account')}
+              options={[
+                { value: 'true', label: t('common:labels.yes') },
+                { value: 'false', label: t('common:labels.no') },
+              ]}
+            />
+          </>
         }
       />
 

@@ -72,6 +72,8 @@ export const StudentFormModal = ({ open, student, onClose, onSaved }: StudentFor
 
   const createAccount = form.watch('createAccount');
   const isEditing = student !== null;
+  // An existing login is changed from the user administration screen, not here.
+  const canAddAccount = !student?.username;
 
   useEffect(() => {
     if (!open) {
@@ -155,6 +157,17 @@ export const StudentFormModal = ({ open, student, onClose, onSaved }: StudentFor
     try {
       if (student) {
         await studentService.update(student.id, base);
+
+        // A login asked for while editing is created against the saved record,
+        // which is what makes "add the account later" work.
+        if (canAddAccount && values.createAccount && values.username && values.accountEmail && values.password) {
+          await studentService.createAccount(student.id, {
+            username: values.username,
+            email: values.accountEmail,
+            password: values.password,
+          });
+        }
+
         toast.success(t('students:toast.updated'));
       } else {
         const payload: StudentPayload = { ...base };
@@ -390,32 +403,37 @@ export const StudentFormModal = ({ open, student, onClose, onSaved }: StudentFor
               </div>
             </section>
 
-            <section className="flex flex-col gap-4">
-              <Checkbox
-                id="createStudentAccount"
-                label={t('students:sections.accountOptional')}
-                {...form.register('createAccount')}
-              />
-
-              {createAccount ? (
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-                  <FormField label={t('common:labels.name')} required>
-                    {({ id }) => <Input id={id} {...form.register('username')} />}
-                  </FormField>
-
-                  <FormField label={t('common:labels.email')} required>
-                    {({ id }) => <Input id={id} type="email" {...form.register('accountEmail')} />}
-                  </FormField>
-
-                  <FormField label={t('students:fields.account')} required>
-                    {({ id }) => (
-                      <PasswordInput id={id} autoComplete="new-password" {...form.register('password')} />
-                    )}
-                  </FormField>
-                </div>
-              ) : null}
-            </section>
           </>
+        ) : null}
+
+        {/* A login can be added later: this stays available while editing, until
+            the student actually has an account. */}
+        {canAddAccount ? (
+          <section className="flex flex-col gap-4">
+            <Checkbox
+              id="createStudentAccount"
+              label={t('students:sections.accountOptional')}
+              {...form.register('createAccount')}
+            />
+
+            {createAccount ? (
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                <FormField label={t('common:labels.name')} required>
+                  {({ id }) => <Input id={id} {...form.register('username')} />}
+                </FormField>
+
+                <FormField label={t('common:labels.email')} required>
+                  {({ id }) => <Input id={id} type="email" {...form.register('accountEmail')} />}
+                </FormField>
+
+                <FormField label={t('students:fields.account')} required>
+                  {({ id }) => (
+                    <PasswordInput id={id} autoComplete="new-password" {...form.register('password')} />
+                  )}
+                </FormField>
+              </div>
+            ) : null}
+          </section>
         ) : null}
       </form>
     </Modal>

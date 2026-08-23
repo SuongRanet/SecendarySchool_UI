@@ -10,7 +10,6 @@ import { StudentLayout } from '@/layouts/StudentLayout';
 
 import { LoginPage } from '@/features/auth/LoginPage';
 import { ForgotPasswordPage } from '@/features/auth/ForgotPasswordPage';
-import { ResetPasswordPage } from '@/features/auth/ResetPasswordPage';
 import { VerifyPage } from '@/features/auth/VerifyPage';
 
 import { DashboardPage } from '@/features/dashboard/DashboardPage';
@@ -45,7 +44,6 @@ import { AssignmentsPage } from '@/features/assignments/AssignmentsPage';
 import { BehaviorsPage } from '@/features/behaviors/BehaviorsPage';
 
 import { AnnouncementsPage } from '@/features/announcements/AnnouncementsPage';
-import { NotificationsPage } from '@/features/notifications/NotificationsPage';
 
 import { UsersPage } from '@/features/users/UsersPage';
 import { RolesPage } from '@/features/users/RolesPage';
@@ -94,7 +92,6 @@ export const AppRouter = () => (
       <Route element={<AuthLayout />}>
         <Route path={ROUTES.login} element={<LoginPage />} />
         <Route path={ROUTES.forgotPassword} element={<ForgotPasswordPage />} />
-        <Route path={ROUTES.resetPassword} element={<ResetPasswordPage />} />
         <Route path={ROUTES.verify} element={<VerifyPage />} />
       </Route>
     </Route>
@@ -105,7 +102,6 @@ export const AppRouter = () => (
       <Route element={<AdminLayout />}>
         <Route path={ROUTES.dashboard} element={<DashboardPage />} />
         <Route path={ROUTES.profile} element={<ProfilePage />} />
-        <Route path={ROUTES.notifications} element={<NotificationsPage />} />
 
         <Route element={<RequirePermission permissions={[PERMISSIONS.STUDENTS_VIEW]} />}>
           <Route path={ROUTES.students} element={<StudentsPage />} />
@@ -218,7 +214,6 @@ export const AppRouter = () => (
           <Route path={ROUTES.teacher.behavior} element={<BehaviorsPage />} />
           <Route path={ROUTES.teacher.announcements} element={<AnnouncementsPage />} />
           <Route path="/teacher/profile" element={<ProfilePage />} />
-          <Route path="/teacher/notifications" element={<NotificationsPage />} />
         </Route>
       </Route>
 
@@ -233,7 +228,6 @@ export const AppRouter = () => (
           <Route path={ROUTES.student.nationalExam} element={<StudentNationalExamPage />} />
           <Route path={ROUTES.student.announcements} element={<AnnouncementsPage />} />
           <Route path="/student/profile" element={<ProfilePage />} />
-          <Route path="/student/notifications" element={<NotificationsPage />} />
         </Route>
       </Route>
 
@@ -250,7 +244,6 @@ export const AppRouter = () => (
           <Route path={ROUTES.parent.reportCards} element={<ParentReportCardsPage />} />
           <Route path={ROUTES.parent.announcements} element={<AnnouncementsPage />} />
           <Route path="/parent/profile" element={<ProfilePage />} />
-          <Route path="/parent/notifications" element={<NotificationsPage />} />
         </Route>
       </Route>
 

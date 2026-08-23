@@ -172,6 +172,8 @@ export interface Teacher {
   homeroomClassIds: number[];
   classCount: number;
   studentCount: number;
+  /** Set when the record is archived; null while it is active. */
+  archivedAt: string | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -224,6 +226,8 @@ export interface Student {
     academicYearName: string;
   } | null;
   parentCount: number;
+  /** Set when the record is archived; null while it is active. */
+  archivedAt: string | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -270,6 +274,8 @@ export interface Parent {
   profilePhoto: string | null;
   isActive: boolean;
   childrenCount: number;
+  /** Set when the record is archived; null while it is active. */
+  archivedAt: string | null;
   createdAt: string;
   updatedAt: string;
 }
