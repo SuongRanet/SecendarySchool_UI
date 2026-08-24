@@ -92,7 +92,8 @@
     "percentage": "Percentage",
     "language": "Language",
     "theme": "Theme",
-    "archived": "Archived"
+    "archived": "Archived",
+    "alternatePhone": "Alternate phone"
   },
   "gender": {
     "MALE": "Male",
@@ -143,5 +144,14 @@
     "activeOnly": "Active only",
     "includeArchived": "Include archived"
   },
-  "grades": "Grade 7 · Grade 8 · Grade 9"
+  "grades": "Grade 7 · Grade 8 · Grade 9",
+  "forms": {
+    "requiredLegend": "Fields marked * must be filled in. Everything else can be left blank now and added later.",
+    "optional": "optional",
+    "autoCode": "Leave blank and the system creates the code for you.",
+    "noClassWarning": "Leave this blank and the student belongs to no class: they will not appear on a class list, register or grade sheet until enrolled.",
+    "dobHint": "Used to work out the age shown on the report card.",
+    "guardianPhoneHint": "How the school reaches this guardian. Strongly recommended.",
+    "accountLater": "Not required. A login can be added later from this same screen."
+  }
 }

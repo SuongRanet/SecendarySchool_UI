@@ -2,10 +2,16 @@ import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Calculator, History, Save } from 'lucide-react';
 import { PERMISSIONS } from '@/constants/permissions';
-import { classService } from '@/services/academic.service';
+import { academicYearService, classService } from '@/services/academic.service';
 import { gradeService } from '@/services/performance.service';
 import { ApiError } from '@/types/api';
-import type { CalculatedGrade, ClassSubject, Grade, GradeHistoryEntry } from '@/types/entities';
+import type {
+  AcademicTerm,
+  CalculatedGrade,
+  ClassSubject,
+  Grade,
+  GradeHistoryEntry,
+} from '@/types/entities';
 import { useAcademicOptions, useClassOptions } from '@/hooks/useAcademicOptions';
 import { useApiResource } from '@/hooks/useApiResource';
 import { usePermission } from '@/hooks/usePermission';
@@ -38,12 +44,37 @@ export const GradesPage = () => {
   const [subjectId, setSubjectId] = useState('');
   const [classSubjects, setClassSubjects] = useState<ClassSubject[]>([]);
 
+  /**
+   * Grades belong to a term. The page used to send none, and every grade
+   * generated here was stored against the year instead — so the same subject
+   * appeared twice on a student's record, once per term and once against
+   * nothing. The active term is preselected so the common case needs no thought.
+   */
+  const [terms, setTerms] = useState<AcademicTerm[]>([]);
+  const [termId, setTermId] = useState('');
+
   const [preview, setPreview] = useState<CalculatedGrade[] | null>(null);
   const [isCalculating, setCalculating] = useState(false);
   const [isSaving, setSaving] = useState(false);
   const [markFinal, setMarkFinal] = useState(false);
   const [historyFor, setHistoryFor] = useState<Grade | null>(null);
   const [history, setHistory] = useState<GradeHistoryEntry[]>([]);
+
+  useEffect(() => {
+    const yearId = options.activeYear?.id;
+
+    if (!yearId) {
+      return;
+    }
+
+    academicYearService
+      .listTerms(yearId)
+      .then((rows) => {
+        setTerms(rows);
+        setTermId(String(rows.find((row) => row.isActive)?.id ?? rows[0]?.id ?? ''));
+      })
+      .catch(() => setTerms([]));
+  }, [options.activeYear?.id]);
 
   useEffect(() => {
     if (!classId) {
@@ -79,6 +110,7 @@ export const GradesPage = () => {
       const result = await gradeService.calculate({
         classId: Number(classId),
         subjectId: Number(subjectId),
+        termId: termId ? Number(termId) : undefined,
       });
 
       setPreview(result);
@@ -96,6 +128,7 @@ export const GradesPage = () => {
       await gradeService.generate({
         classId: Number(classId),
         subjectId: Number(subjectId),
+        termId: termId ? Number(termId) : undefined,
         isFinal: markFinal,
       });
 
@@ -238,6 +271,17 @@ export const GradesPage = () => {
                   value: schoolClass.id,
                   label: schoolClass.name,
                 }))}
+              />
+            )}
+          </FormField>
+
+          <FormField label={t('performance:grades.fields.term')} className="w-full sm:w-44">
+            {({ id }) => (
+              <Select
+                id={id}
+                value={termId}
+                onChange={(event) => setTermId(event.target.value)}
+                options={terms.map((term) => ({ value: term.id, label: term.name }))}
               />
             )}
           </FormField>

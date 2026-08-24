@@ -178,6 +178,7 @@ export const ParentFormModal = ({ open, parent, onClose, onSaved }: ParentFormMo
       onClose={onClose}
       size="lg"
       title={isEditing ? t('common:actions.edit') : t('common:actions.create')}
+      description={t('common:forms.requiredLegend')}
       closeLabel={t('common:actions.close')}
       footer={
         <>
@@ -230,11 +231,11 @@ export const ParentFormModal = ({ open, parent, onClose, onSaved }: ParentFormMo
             )}
           </FormField>
 
-          <FormField label={t('common:labels.phone')}>
+          <FormField label={t('common:labels.phone')} hint={t('common:forms.guardianPhoneHint')}>
             {({ id }) => <Input id={id} type="tel" {...form.register('phoneNumber')} />}
           </FormField>
 
-          <FormField label={t('common:labels.phone')} optionalLabel={t('common:labels.optional')}>
+          <FormField label={t('common:labels.alternatePhone')}>
             {({ id }) => <Input id={id} type="tel" {...form.register('alternatePhone')} />}
           </FormField>
 

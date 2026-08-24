@@ -215,6 +215,7 @@ export const StudentFormModal = ({ open, student, onClose, onSaved }: StudentFor
       onClose={onClose}
       size="xl"
       title={isEditing ? t('students:edit') : t('students:create')}
+      description={t('common:forms.requiredLegend')}
       closeLabel={t('common:actions.close')}
       footer={
         <>
@@ -252,14 +253,12 @@ export const StudentFormModal = ({ open, student, onClose, onSaved }: StudentFor
 
             <FormField
               label={t('students:fields.firstNameKh')}
-              optionalLabel={t('common:labels.optional')}
             >
               {({ id }) => <Input id={id} className="font-khmer" {...form.register('firstNameKh')} />}
             </FormField>
 
             <FormField
               label={t('students:fields.lastNameKh')}
-              optionalLabel={t('common:labels.optional')}
             >
               {({ id }) => <Input id={id} className="font-khmer" {...form.register('lastNameKh')} />}
             </FormField>
@@ -278,7 +277,7 @@ export const StudentFormModal = ({ open, student, onClose, onSaved }: StudentFor
               )}
             </FormField>
 
-            <FormField label={t('students:fields.dateOfBirth')}>
+            <FormField label={t('students:fields.dateOfBirth')} hint={t('common:forms.dobHint')}>
               {({ id }) => <Input id={id} type="date" {...form.register('dateOfBirth')} />}
             </FormField>
 
@@ -350,7 +349,7 @@ export const StudentFormModal = ({ open, student, onClose, onSaved }: StudentFor
             </FormField>
           </div>
 
-          <FormField label={t('students:fields.notes')} optionalLabel={t('common:labels.optional')}>
+          <FormField label={t('students:fields.notes')}>
             {({ id }) => <Textarea id={id} rows={2} {...form.register('notes')} />}
           </FormField>
         </section>
@@ -382,7 +381,10 @@ export const StudentFormModal = ({ open, student, onClose, onSaved }: StudentFor
                   )}
                 </FormField>
 
-                <FormField label={t('students:fields.currentClass')}>
+                <FormField
+                  label={t('students:fields.currentClass')}
+                  hint={t('common:forms.noClassWarning')}
+                >
                   {({ id }) => (
                     <Select
                       id={id}

@@ -1,6 +1,6 @@
 {
   "title": "Students",
-  "subtitle": "Every student, their guardians and their academic history",
+  "subtitle": "Every student, their parent and their academic history",
   "create": "Add student",
   "edit": "Edit student",
   "details": "Student details",
@@ -26,7 +26,7 @@
     "gradeLevel": "Grade",
     "academicYear": "Academic year",
     "rollNumber": "Roll number",
-    "guardians": "Guardians",
+    "guardians": "Parent",
     "account": "Login account"
   },
   "placeholders": {
@@ -37,7 +37,8 @@
     "status": "Status",
     "grade": "Grade",
     "class": "Class",
-    "gender": "Gender"
+    "gender": "Gender",
+    "noClass": "Not in any class"
   },
   "status": {
     "ACTIVE": "Active",
@@ -66,7 +67,7 @@
   },
   "tabs": {
     "profile": "Profile",
-    "guardians": "Guardians",
+    "guardians": "Parent",
     "enrollments": "Academic history",
     "attendance": "Attendance",
     "grades": "Grades",
@@ -78,17 +79,17 @@
     "contact": "Contact",
     "school": "School information",
     "firstEnrollment": "First enrollment",
-    "guardianLinks": "Link guardians",
+    "guardianLinks": "Link Parent",
     "accountOptional": "Login account (optional)"
   },
   "guardians": {
-    "add": "Link guardian",
+    "add": "Link parent",
     "primaryContact": "Primary contact",
     "emergencyContact": "Emergency contact",
     "canPickUp": "Allowed to pick up",
     "relationship": "Relationship",
     "remove": "Remove link",
-    "removeTitle": "Remove this guardian link?",
+    "removeTitle": "Remove this parent link?",
     "removeMessage": "{{name}} will no longer be linked to this student. Neither record is deleted.",
     "empty": "No guardian is linked to this student yet.",
     "selectParent": "Select a guardian"

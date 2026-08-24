@@ -129,7 +129,8 @@
     "toast": {
       "saved": "Grade saved successfully",
       "generated": "Grades generated successfully"
-    }
+    },
+    "noTerm": "No term recorded"
   },
   "gradingScheme": {
     "title": "Grading scheme",

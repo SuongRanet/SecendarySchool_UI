@@ -252,7 +252,10 @@ export const StudentDetailPage = () => {
       key: 'term',
       header: t('performance:assessments.fields.term'),
       hideOnMobile: true,
-      render: (grade) => grade.termName ?? grade.academicYearName,
+      // A grade with no term is not a grade for the whole year — it is an older
+      // row from before the term was recorded. Showing the year's name here read
+      // as if the subject had been graded twice, once per term and once per year.
+      render: (grade) => grade.termName ?? t('performance:grades.noTerm'),
     },
     {
       key: 'score',

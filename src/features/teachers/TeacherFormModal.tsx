@@ -178,6 +178,7 @@ export const TeacherFormModal = ({ open, teacher, onClose, onSaved }: TeacherFor
       onClose={onClose}
       size="xl"
       title={isEditing ? t('teachers:edit') : t('teachers:create')}
+      description={t('common:forms.requiredLegend')}
       closeLabel={t('common:actions.close')}
       footer={
         <>
@@ -323,7 +324,7 @@ export const TeacherFormModal = ({ open, teacher, onClose, onSaved }: TeacherFor
             </FormField>
           </div>
 
-          <FormField label={t('teachers:fields.notes')} optionalLabel={t('common:labels.optional')}>
+          <FormField label={t('teachers:fields.notes')}>
             {({ id }) => <Textarea id={id} rows={2} {...form.register('notes')} />}
           </FormField>
         </section>

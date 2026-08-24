@@ -59,8 +59,12 @@ export const StudentsPage = () => {
         status: (query.filters.status as StudentStatus) || undefined,
         gender: (query.filters.gender as Gender) || undefined,
         includeArchived: query.filters.archived === 'true' || undefined,
+        unassigned: query.filters.classId === 'none' || undefined,
         gradeLevelId: query.filters.gradeLevelId ? Number(query.filters.gradeLevelId) : undefined,
-        classId: query.filters.classId ? Number(query.filters.classId) : undefined,
+        classId:
+          query.filters.classId && query.filters.classId !== 'none'
+            ? Number(query.filters.classId)
+            : undefined,
       }),
     [],
   );
@@ -241,10 +245,15 @@ export const StudentsPage = () => {
               value={list.query.filters.classId ?? ''}
               onChange={(event) => list.setFilter('classId', event.target.value)}
               placeholder={t('students:filters.class')}
-              options={classes.map((schoolClass) => ({
-                value: schoolClass.id,
-                label: schoolClass.name,
-              }))}
+              options={[
+                // Lets an administrator find students who belong to no class,
+                // who are otherwise impossible to search for.
+                { value: 'none', label: t('students:filters.noClass') },
+                ...classes.map((schoolClass) => ({
+                  value: schoolClass.id,
+                  label: schoolClass.name,
+                })),
+              ]}
             />
 
             <Select

@@ -53,6 +53,7 @@ export interface TeacherPayload {
 
 export interface TeacherListQuery extends ListQuery {
   includeArchived?: boolean;
+  unassigned?: boolean;
   status?: StaffStatus;
   subjectId?: number;
   classId?: number;
@@ -145,6 +146,8 @@ export interface StudentListQuery extends ListQuery {
   academicYearId?: number;
   parentId?: number;
   includeArchived?: boolean;
+  /** Only students who belong to no class, so they can be found and enrolled. */
+  unassigned?: boolean;
 }
 
 export const studentService = {
