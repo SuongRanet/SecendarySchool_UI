@@ -1,7 +1,8 @@
 import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { GraduationCap, X } from 'lucide-react';
-import type { NavSection } from '@/app/navigation';
+import type { NavItem, NavSection } from '@/app/navigation';
+import { useUnreadFor } from '@/stores/notification.store';
 import { cn } from '@/utils/cn';
 
 export interface SidebarProps {
@@ -11,7 +12,48 @@ export interface SidebarProps {
   onClose: () => void;
 }
 
-const APP_NAME = import.meta.env.VITE_APP_NAME ?? 'Hun Sen Turi';
+/**
+ * One navigation entry.
+ *
+ * Extracted from the list so it can read its own unread count: a hook cannot be
+ * called inside a `map` callback, and the badge has to subscribe per item.
+ */
+const SidebarLink = ({ item, onNavigate }: { item: NavItem; onNavigate: () => void }) => {
+  const { t } = useTranslation('navigation');
+  const unread = useUnreadFor(item.badgeTypes);
+  const Icon = item.icon;
+
+  return (
+    <li>
+      <NavLink
+        to={item.to}
+        end={item.end}
+        onClick={onNavigate}
+        className={({ isActive }) =>
+          cn(
+            'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+            isActive
+              ? 'bg-[var(--primary-soft)] text-[var(--primary)]'
+              : 'text-[var(--text-muted)] hover:bg-[var(--surface-hover)] hover:text-[var(--text)]',
+          )
+        }
+      >
+        <Icon className="size-4.5 shrink-0" aria-hidden="true" />
+        <span className="truncate">{t(`navigation:${item.labelKey}`)}</span>
+        {unread > 0 ? (
+          <span
+            className="ml-auto flex min-w-5 shrink-0 items-center justify-center rounded-full bg-[var(--danger)] px-1.5 text-[11px] font-semibold leading-5 text-white"
+            aria-label={t('notifications.unreadLabel', { count: unread })}
+          >
+            {unread > 99 ? '99+' : unread}
+          </span>
+        ) : null}
+      </NavLink>
+    </li>
+  );
+};
+
+const APP_NAME = import.meta.env.VITE_APP_NAME ?? 'Hun Sen Turey';
 
 export const Sidebar = ({ sections, open, onClose }: SidebarProps) => {
   const { t } = useTranslation(['navigation', 'common']);
@@ -25,30 +67,9 @@ export const Sidebar = ({ sections, open, onClose }: SidebarProps) => {
           </p>
 
           <ul className="flex flex-col gap-0.5">
-            {section.items.map((item) => {
-              const Icon = item.icon;
-
-              return (
-                <li key={item.key}>
-                  <NavLink
-                    to={item.to}
-                    end={item.end}
-                    onClick={onClose}
-                    className={({ isActive }) =>
-                      cn(
-                        'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
-                        isActive
-                          ? 'bg-[var(--primary-soft)] text-[var(--primary)]'
-                          : 'text-[var(--text-muted)] hover:bg-[var(--surface-hover)] hover:text-[var(--text)]',
-                      )
-                    }
-                  >
-                    <Icon className="size-4.5 shrink-0" aria-hidden="true" />
-                    <span className="truncate">{t(`navigation:${item.labelKey}`)}</span>
-                  </NavLink>
-                </li>
-              );
-            })}
+            {section.items.map((item) => (
+              <SidebarLink key={item.key} item={item} onNavigate={onClose} />
+            ))}
           </ul>
         </div>
       ))}

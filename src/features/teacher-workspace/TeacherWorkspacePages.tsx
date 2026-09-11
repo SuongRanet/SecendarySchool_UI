@@ -127,12 +127,25 @@ export const TeacherClassesPage = () => {
                       ) : null}
                     </div>
 
+                    {/*
+                      * A homeroom class the teacher takes no subject in still
+                      * belongs here — they run its register and write its
+                      * report card comments — but it has no subject to badge.
+                      */}
                     <div className="flex flex-wrap gap-1.5">
-                      {items.map((item) => (
-                        <Badge key={item.classSubjectId} tone="neutral" size="sm">
-                          {item.subjectName}
-                        </Badge>
-                      ))}
+                      {items.filter((item) => item.subjectName !== null).length > 0 ? (
+                        items
+                          .filter((item) => item.subjectName !== null)
+                          .map((item) => (
+                            <Badge key={item.classSubjectId ?? item.classId} tone="neutral" size="sm">
+                              {item.subjectName}
+                            </Badge>
+                          ))
+                      ) : (
+                        <span className="text-xs text-[var(--text-subtle)]">
+                          {t('teachers:assignments.homeroomOnly')}
+                        </span>
+                      )}
                     </div>
 
                     <p className="flex items-center gap-1.5 text-xs text-[var(--text-muted)]">

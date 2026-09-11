@@ -98,10 +98,12 @@ export const auditService = {
 // ---------------------------------------------------------------------------
 
 export const dashboardService = {
-  admin: (): Promise<AdminDashboard> => api.get<AdminDashboard>('/dashboard/admin'),
+  /** `date` picks the day the attendance panel reports on; today when omitted. */
+  admin: (date?: string): Promise<AdminDashboard> =>
+    api.get<AdminDashboard>('/dashboard/admin', cleanParams({ date })),
 
-  principal: (termId?: number): Promise<PrincipalDashboard> =>
-    api.get<PrincipalDashboard>('/dashboard/principal', cleanParams({ termId })),
+  principal: (termId?: number, date?: string): Promise<PrincipalDashboard> =>
+    api.get<PrincipalDashboard>('/dashboard/principal', cleanParams({ termId, date })),
 
   teacher: (): Promise<TeacherDashboard> => api.get<TeacherDashboard>('/dashboard/teacher'),
 

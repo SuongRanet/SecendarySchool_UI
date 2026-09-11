@@ -21,11 +21,8 @@
     "type": {
       "HOMEWORK": "Homework",
       "QUIZ": "Quiz",
-      "ASSIGNMENT": "Assignment",
-      "PROJECT": "Project",
       "MIDTERM": "Midterm",
-      "FINAL": "Final",
-      "PARTICIPATION": "Participation"
+      "FINAL": "Final"
     },
     "results": {
       "title": "Enter results",

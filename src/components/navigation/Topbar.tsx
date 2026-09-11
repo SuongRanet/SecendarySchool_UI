@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { Menu } from 'lucide-react';
 import { LanguageSwitcher } from './LanguageSwitcher';
+import { NotificationBell } from './NotificationBell';
 import { ThemeToggle } from './ThemeToggle';
 import { UserMenu } from './UserMenu';
 
@@ -27,6 +28,7 @@ export const Topbar = ({ onOpenSidebar }: TopbarProps) => {
       <div className="flex items-center gap-1">
         <LanguageSwitcher />
         <ThemeToggle />
+        <NotificationBell />
         <div className="mx-1 h-6 w-px bg-[var(--border)]" aria-hidden="true" />
         <UserMenu />
       </div>

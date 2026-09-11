@@ -11,6 +11,7 @@ import type { Enrollment, Student } from '@/types/entities';
 import { useAcademicOptions, useClassOptions } from '@/hooks/useAcademicOptions';
 import { useListQuery } from '@/hooks/useListQuery';
 import { useMutation } from '@/hooks/useMutation';
+import { ConfirmDialog } from '@/components/ui/ConfirmDialog';
 import { usePermission } from '@/hooks/usePermission';
 import { useLanguageStore } from '@/stores/language.store';
 import { formatDate, todayIso } from '@/utils/format';
@@ -42,6 +43,7 @@ export const EnrollmentsPage = () => {
 
   const [isEnrollOpen, setEnrollOpen] = useState(false);
   const [isPromoteOpen, setPromoteOpen] = useState(false);
+  const [confirmGraduate, setConfirmGraduate] = useState(false);
   const [transferTarget, setTransferTarget] = useState<Enrollment | null>(null);
   const [withdrawTarget, setWithdrawTarget] = useState<Enrollment | null>(null);
 
@@ -234,6 +236,14 @@ export const EnrollmentsPage = () => {
               >
                 {t('operations:enrollments.actions.promote')}
               </Button>
+
+              {/* <Button
+                variant="secondary"
+                onClick={() => setConfirmGraduate(true)}
+                leftIcon={<GraduationCap className="size-4" />}
+              > */}
+                {/* {t('operations:enrollments.actions.graduate')}
+              </Button> */}
 
               <Button
                 onClick={() => {
@@ -575,6 +585,38 @@ export const EnrollmentsPage = () => {
         onClose={() => setPromoteOpen(false)}
         onDone={list.refresh}
         academicYears={options.academicYears}
+      />
+
+      {/*
+        * Graduating is irreversible in practice — it closes every leaver's
+        * enrolment and marks them as gone — so it asks first and names the year.
+        */}
+      <ConfirmDialog
+        open={confirmGraduate}
+        icon="warning"
+        title={t('operations:enrollments.graduate.title')}
+        message={t('operations:enrollments.graduate.message', {
+          year: options.activeYear?.name ?? '',
+        })}
+        confirmLabel={t('operations:enrollments.actions.graduate')}
+        onCancel={() => setConfirmGraduate(false)}
+        onConfirm={async () => {
+          setConfirmGraduate(false);
+          const year = options.activeYear;
+
+          if (!year) {
+            return;
+          }
+
+          const result = await run(
+            () => enrollmentService.graduate({ academicYearId: year.id }),
+            t('operations:enrollments.graduate.done'),
+          );
+
+          if (result) {
+            list.refresh();
+          }
+        }}
       />
     </div>
   );

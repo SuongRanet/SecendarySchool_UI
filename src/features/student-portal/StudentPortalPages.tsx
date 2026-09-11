@@ -1,17 +1,16 @@
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { CalendarCheck, FileBadge, Send } from 'lucide-react';
+import { CalendarCheck, Send } from 'lucide-react';
 import { dashboardService } from '@/services/admin.service';
 import { assignmentService } from '@/services/engagement.service';
 import { attendanceService } from '@/services/operations.service';
 import { gradeService } from '@/services/performance.service';
-import { nationalExamService } from '@/services/national-exam.service';
 import { scheduleService } from '@/services/operations.service';
+import type { UploadedFile } from '@/services/file.service';
 import type {
   Assignment,
   AttendanceRecord,
   Grade,
-  NationalExamRegistration,
   Schedule,
   StudentAttendanceSummary,
   StudentDashboard,
@@ -26,11 +25,13 @@ import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { Card, CardBody, CardHeader } from '@/components/ui/Card';
 import { Modal } from '@/components/ui/Modal';
+import { AttachmentPicker } from '@/components/ui/AttachmentPicker';
+import { AttachmentView } from '@/components/ui/AttachmentView';
 import { StatCard } from '@/components/ui/StatCard';
 import { StatusBadge } from '@/components/ui/StatusBadge';
 import { DataTable } from '@/components/tables/DataTable';
 import type { Column } from '@/components/tables/DataTable';
-import { EmptyState, ErrorState, LoadingState } from '@/components/feedback/States';
+import { ErrorState, LoadingState } from '@/components/feedback/States';
 import { WeeklyTimetable } from '@/components/schedule/WeeklyTimetable';
 
 /**
@@ -101,6 +102,7 @@ export const StudentHomeworkPage = () => {
 
   const [submitting, setSubmitting] = useState<Assignment | null>(null);
   const [answer, setAnswer] = useState('');
+  const [attachment, setAttachment] = useState<UploadedFile | null>(null);
 
   const fetcher = useCallback(
     () =>
@@ -121,6 +123,7 @@ export const StudentHomeworkPage = () => {
   const closeModal = () => {
     setSubmitting(null);
     setAnswer('');
+    setAttachment(null);
   };
 
   const handleSubmit = async () => {
@@ -129,7 +132,11 @@ export const StudentHomeworkPage = () => {
     }
 
     const ok = await run(
-      () => assignmentService.submit(submitting.id, { content: answer }),
+      () =>
+        assignmentService.submit(submitting.id, {
+          content: answer.trim() === '' ? null : answer,
+          attachmentUrl: attachment?.url ?? null,
+        }),
       t('studentPortal:homework.submitted'),
     );
 
@@ -188,6 +195,7 @@ export const StudentHomeworkPage = () => {
           onClick={() => {
             setSubmitting(assignment);
             setAnswer('');
+            setAttachment(null);
           }}
         >
           <Send className="size-4" aria-hidden="true" />
@@ -223,12 +231,29 @@ export const StudentHomeworkPage = () => {
             <Button variant="ghost" onClick={closeModal}>
               {t('common:actions.cancel')}
             </Button>
-            <Button onClick={handleSubmit} isLoading={isRunning} disabled={answer.trim() === ''}>
+            <Button
+              onClick={handleSubmit}
+              isLoading={isRunning}
+              disabled={answer.trim() === '' && attachment === null}
+            >
               {t('studentPortal:homework.submit')}
             </Button>
           </>
         }
       >
+        {/* What the teacher set, including any worksheet they attached. */}
+        {submitting?.instructions ? (
+          <p className="mb-4 whitespace-pre-wrap rounded-lg bg-[var(--surface-muted)] p-3 text-sm text-[var(--text-muted)]">
+            {submitting.instructions}
+          </p>
+        ) : null}
+
+        {submitting?.attachmentUrl ? (
+          <div className="mb-4">
+            <AttachmentView url={submitting.attachmentUrl} />
+          </div>
+        ) : null}
+
         <label className="flex flex-col gap-2 text-sm">
           <span className="font-medium text-[var(--text)]">
             {t('studentPortal:homework.answer')}
@@ -241,6 +266,14 @@ export const StudentHomeworkPage = () => {
             placeholder={t('studentPortal:homework.answerPlaceholder')}
           />
         </label>
+
+        {/* A photograph of the exercise book is the usual way work arrives. */}
+        <div className="mt-4 flex flex-col gap-2">
+          <span className="text-sm font-medium text-[var(--text)]">
+            {t('studentPortal:homework.attachment')}
+          </span>
+          <AttachmentPicker value={attachment} onChange={setAttachment} disabled={isRunning} />
+        </div>
       </Modal>
     </div>
   );
@@ -408,124 +441,6 @@ export const StudentAttendancePage = () => {
         onRetry={records.refresh}
         emptyTitle={t('attendance:history.empty')}
       />
-    </div>
-  );
-};
-
-// ---------------------------------------------------------------------------
-// National examination — Grade 9 only
-// ---------------------------------------------------------------------------
-
-export const StudentNationalExamPage = () => {
-  const { t } = useTranslation(['studentPortal', 'nationalExam', 'common']);
-  const language = useLanguageStore((state) => state.language);
-
-  const fetcher = useCallback(() => nationalExamService.mine(), []);
-  const registrations = useApiResource<NationalExamRegistration[]>(fetcher);
-
-  if (registrations.isLoading) {
-    return <LoadingState />;
-  }
-
-  if (registrations.error) {
-    return <ErrorState message={registrations.error} onRetry={registrations.refresh} />;
-  }
-
-  const rows = registrations.data ?? [];
-
-  return (
-    <div className="flex flex-col gap-5">
-      <PageHeader
-        title={t('nationalExam:title')}
-        description={t('studentPortal:nationalExam.subtitle')}
-      />
-
-      {rows.length === 0 ? (
-        <EmptyState
-          icon={<FileBadge className="size-6" />}
-          title={t('studentPortal:nationalExam.notRegistered')}
-          message={t('studentPortal:nationalExam.notRegisteredHint')}
-        />
-      ) : (
-        rows.map((registration) => (
-          <Card key={registration.id}>
-            <CardHeader
-              title={registration.sessionName ?? t('nationalExam:title')}
-              description={registration.academicYearName ?? undefined}
-              action={
-                <StatusBadge kind="nationalExam" status={registration.status} />
-              }
-            />
-
-            <CardBody className="flex flex-col gap-4">
-              <dl className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-                {[
-                  [t('nationalExam:fields.seatNumber'), registration.seatNumber ?? '—'],
-                  [t('nationalExam:fields.centre'), registration.centreName ?? '—'],
-                  [
-                    t('nationalExam:fields.sitting'),
-                    registration.startsOn
-                      ? `${formatDate(registration.startsOn, language)} → ${formatDate(
-                          registration.endsOn ?? registration.startsOn,
-                          language,
-                        )}`
-                      : '—',
-                  ],
-                  [t('nationalExam:fields.class'), registration.className ?? '—'],
-                ].map(([label, value]) => (
-                  <div key={String(label)}>
-                    <dt className="text-xs text-[var(--text-subtle)]">{label}</dt>
-                    <dd className="font-medium text-[var(--text)]">{value}</dd>
-                  </div>
-                ))}
-              </dl>
-
-              {registration.result ? (
-                <div
-                  className={`rounded-lg border p-4 ${
-                    registration.result.isPass
-                      ? 'border-[var(--success)]/30 bg-[var(--success-soft)]'
-                      : 'border-[var(--danger)]/30 bg-[var(--danger-soft)]'
-                  }`}
-                >
-                  <p className="text-xs uppercase tracking-wide text-[var(--text-subtle)]">
-                    {t('nationalExam:fields.result')}
-                  </p>
-                  <p className="mt-1 flex items-baseline gap-3">
-                    <span className="text-3xl font-semibold text-[var(--text)]">
-                      {registration.result.resultGrade}
-                    </span>
-                    <span
-                      className={
-                        registration.result.isPass
-                          ? 'font-medium text-[var(--success)]'
-                          : 'font-medium text-[var(--danger)]'
-                      }
-                    >
-                      {registration.result.isPass
-                        ? t('nationalExam:result.pass')
-                        : t('nationalExam:result.fail')}
-                    </span>
-                    {registration.result.totalScore != null ? (
-                      <span className="text-sm text-[var(--text-muted)]">
-                        {registration.result.totalScore}
-                      </span>
-                    ) : null}
-                  </p>
-                  <p className="mt-2 text-xs text-[var(--text-subtle)]">
-                    {t('nationalExam:fields.publishedOn')}:{' '}
-                    {formatDate(registration.result.publishedOn, language)}
-                  </p>
-                </div>
-              ) : (
-                <p className="rounded-lg border border-[var(--border)] bg-[var(--surface-muted)] p-4 text-sm text-[var(--text-muted)]">
-                  {t('studentPortal:nationalExam.awaitingResult')}
-                </p>
-              )}
-            </CardBody>
-          </Card>
-        ))
-      )}
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Printer, Save, Send } from 'lucide-react';
 import { PERMISSIONS } from '@/constants/permissions';
@@ -20,14 +20,15 @@ import { StatusBadge } from '@/components/ui/StatusBadge';
 import { Textarea } from '@/components/ui/Select';
 import { ErrorState, LoadingState } from '@/components/feedback/States';
 
-const APP_NAME = import.meta.env.VITE_APP_NAME ?? 'Hun Sen Turi';
+const APP_NAME = import.meta.env.VITE_APP_NAME ?? 'Hun Sen Turey';
 
 export const ReportCardDetailPage = () => {
   const { t } = useTranslation(['performance', 'common', 'students']);
   const params = useParams();
+  const reportCardRoutes = ROUTES.reportCardsFor(useLocation().pathname);
   const reportCardId = Number(params.id);
   const language = useLanguageStore((state) => state.language);
-  const { has } = usePermission();
+  const { user, has, isElevated } = usePermission();
   const { run, isRunning } = useMutation();
 
   const canEdit = has(PERMISSIONS.REPORT_CARDS_GENERATE);
@@ -64,6 +65,20 @@ export const ReportCardDetailPage = () => {
 
   const card = reportCard.data;
 
+  /**
+   * Who owns which line on the card.
+   *
+   * The office writes anywhere. A homeroom teacher owns the homeroom comment on
+   * their own class and only that — the backend enforces the same split, so a
+   * box left editable here that the server would reject is worse than one that
+   * is simply read-only.
+   */
+  const isOffice = isElevated();
+  const isHomeroomOfThisClass =
+    !isOffice && user?.teacherId != null && user.teacherId === card.homeroomTeacherId;
+  const canWriteHomeroom = canEdit && (isOffice || isHomeroomOfThisClass);
+  const canSave = isOffice ? canEdit : canWriteHomeroom;
+
   return (
     <div className="flex flex-col gap-5">
       <div className="no-print">
@@ -73,7 +88,7 @@ export const ReportCardDetailPage = () => {
             card.termName ?? card.academicYearName
           }`}
           breadcrumbs={[
-            { label: t('performance:reportCards.title'), to: ROUTES.reportCards },
+            { label: t('performance:reportCards.title'), to: reportCardRoutes.list },
             { label: card.studentName },
           ]}
           actions={
@@ -86,18 +101,23 @@ export const ReportCardDetailPage = () => {
                 {t('performance:reportCards.print')}
               </Button>
 
-              {canEdit ? (
+              {canSave ? (
                 <Button
                   variant="secondary"
                   isLoading={isRunning}
                   onClick={async () => {
                     const ok = await run(
                       () =>
-                        reportCardService.update(card.id, {
-                          teacherComment: teacherComment || null,
-                          homeroomComment: homeroomComment || null,
-                          principalComment: principalComment || null,
-                        }),
+                        reportCardService.update(
+                          card.id,
+                          isOffice
+                            ? {
+                                teacherComment: teacherComment || null,
+                                homeroomComment: homeroomComment || null,
+                                principalComment: principalComment || null,
+                              }
+                            : { homeroomComment: homeroomComment || null },
+                        ),
                       t('performance:reportCards.toast.updated'),
                     );
 
@@ -301,24 +321,27 @@ export const ReportCardDetailPage = () => {
                 label: t('performance:reportCards.fields.teacherComment'),
                 value: teacherComment,
                 setValue: setTeacherComment,
+                editable: canEdit && isOffice,
               },
               {
                 key: 'homeroom',
                 label: t('performance:reportCards.fields.homeroomComment'),
                 value: homeroomComment,
                 setValue: setHomeroomComment,
+                editable: canWriteHomeroom,
               },
               {
                 key: 'principal',
                 label: t('performance:reportCards.fields.principalComment'),
                 value: principalComment,
                 setValue: setPrincipalComment,
+                editable: canEdit && isOffice,
               },
             ].map((comment) => (
               <div key={comment.key}>
                 <p className="mb-1 text-sm font-medium text-[var(--text)]">{comment.label}</p>
 
-                {canEdit ? (
+                {comment.editable ? (
                   <Textarea
                     className="no-print"
                     rows={2}
@@ -329,7 +352,7 @@ export const ReportCardDetailPage = () => {
 
                 <p
                   className={
-                    canEdit
+                    comment.editable
                       ? 'hidden min-h-10 rounded border border-[var(--border)] p-2 text-sm print:block'
                       : 'min-h-10 rounded border border-[var(--border)] p-2 text-sm text-[var(--text)]'
                   }

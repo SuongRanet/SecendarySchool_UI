@@ -94,7 +94,12 @@ export const TeacherDetailPage = () => {
     {
       key: 'subject',
       header: t('academics:subjects.title'),
-      render: (assignment) => assignment.subjectName,
+      render: (assignment) =>
+        assignment.subjectName ?? (
+          <span className="text-[var(--text-subtle)]">
+            {t('teachers:assignments.homeroomOnly')}
+          </span>
+        ),
     },
     {
       key: 'grade',
@@ -261,7 +266,7 @@ export const TeacherDetailPage = () => {
         <DataTable<TeacherAssignment>
           columns={assignmentColumns}
           rows={assignments.data ?? []}
-          rowKey={(assignment) => assignment.classSubjectId}
+          rowKey={(assignment) => assignment.classSubjectId ?? `homeroom-${assignment.classId}`}
           isLoading={assignments.isLoading}
           error={assignments.error}
           onRetry={assignments.refresh}

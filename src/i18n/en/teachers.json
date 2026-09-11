@@ -58,7 +58,8 @@
     "title": "Classes and subjects",
     "empty": "This teacher is not assigned to any class yet.",
     "homeroom": "Homeroom",
-    "assignSubjects": "Assign subjects"
+    "assignSubjects": "Assign subjects",
+    "homeroomOnly": "Homeroom duties only"
   },
   "account": {
     "create": "Create login account",

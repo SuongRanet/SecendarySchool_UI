@@ -17,7 +17,8 @@
     "actions": {
       "transfer": "Transfer to another class",
       "withdraw": "End enrollment",
-      "promote": "Promote to next year"
+      "promote": "Promote to next year",
+      "graduate": "Graduate leavers"
     },
     "transferDialog": {
       "title": "Transfer {{name}}",
@@ -56,6 +57,11 @@
       "withdrawn": "Enrollment ended successfully",
       "updated": "Enrollment updated successfully",
       "promoted": "Students promoted successfully"
+    },
+    "graduate": {
+      "title": "Graduate the leaving year group?",
+      "message": "Every pupil in the exit grade of {{year}} will be marked as graduated and their enrolment closed. They will no longer appear on any roster, register or report card.",
+      "done": "The leaving year group has graduated"
     }
   },
   "schedules": {
@@ -88,7 +94,9 @@
       "blocked": "This period cannot be saved until the conflict is resolved.",
       "warningRoom": "The room is already in use at this time. Save anyway?",
       "saveAnyway": "Save anyway",
-      "none": "No conflicts — this slot is free."
+      "none": "No conflicts — this slot is free.",
+      "checking": "Checking this slot…",
+      "checkFailed": "Could not check this slot. Save to let the server verify it."
     },
     "noSelection": "Select a class, teacher or room to view its timetable.",
     "emptyDay": "No periods",

@@ -202,8 +202,9 @@ export const notificationService = {
   ): Promise<PaginatedData<AppNotification>> =>
     api.getPaginated<AppNotification>('/notifications', cleanParams(query)),
 
-  unreadCount: (): Promise<{ count: number }> =>
-    api.get<{ count: number }>('/notifications/unread-count'),
+  /** The unread total, plus the same figure split by type for section badges. */
+  unreadCount: (): Promise<{ count: number; byType: Record<string, number> }> =>
+    api.get<{ count: number; byType: Record<string, number> }>('/notifications/unread-count'),
 
   markRead: (id: number): Promise<null> => api.post<null>(`/notifications/${id}/read`),
 

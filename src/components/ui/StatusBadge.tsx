@@ -85,16 +85,6 @@ const SUBMISSION_TONES: Record<SubmissionStatus, BadgeTone> = {
   MISSING: 'danger',
 };
 
-/** Registration status of a Grade 9 candidate for the national examination. */
-const NATIONAL_EXAM_TONES: Record<string, BadgeTone> = {
-  NOT_REGISTERED: 'neutral',
-  REGISTERED: 'info',
-  ADMITTED: 'primary',
-  SAT: 'accent',
-  ABSENT: 'danger',
-  RESULT_PUBLISHED: 'success',
-};
-
 const REPORT_CARD_TONES: Record<ReportCardStatus, BadgeTone> = {
   DRAFT: 'neutral',
   PUBLISHED: 'success',
@@ -119,8 +109,7 @@ export type StatusKind =
   | 'assignment'
   | 'submission'
   | 'reportCard'
-  | 'performance'
-  | 'nationalExam';
+  | 'performance';
 
 const TONE_MAPS: Record<StatusKind, Record<string, BadgeTone>> = {
   user: USER_TONES,
@@ -134,7 +123,6 @@ const TONE_MAPS: Record<StatusKind, Record<string, BadgeTone>> = {
   submission: SUBMISSION_TONES,
   reportCard: REPORT_CARD_TONES,
   performance: PERFORMANCE_TONES,
-  nationalExam: NATIONAL_EXAM_TONES,
 };
 
 /** Where each status kind finds its label in the translation files. */
@@ -150,7 +138,6 @@ const LABEL_KEYS: Record<StatusKind, (status: string) => string> = {
   submission: (status) => `communication:submissionStatus.${status}`,
   reportCard: (status) => `performance:reportCardStatus.${status}`,
   performance: (status) => `performance:performanceLevel.${status}`,
-  nationalExam: (status) => `nationalExam:status.${status}`,
 };
 
 export interface StatusBadgeProps {
@@ -169,7 +156,6 @@ export const StatusBadge = ({ kind, status, size = 'md', dot = true }: StatusBad
     'attendance',
     'communication',
     'performance',
-    'nationalExam',
   ]);
 
   if (!status) {

@@ -56,10 +56,31 @@ export const ROUTES = {
     schedule: '/teacher/schedule',
     attendance: '/teacher/attendance',
     assessments: '/teacher/assessments',
+    /** Where a teacher actually types the marks for one piece of work. */
+    assessmentDetail: (id: number | string) => `/teacher/assessments/${id}`,
     grades: '/teacher/grades',
     assignments: '/teacher/assignments',
     behavior: '/teacher/behavior',
     announcements: '/teacher/announcements',
+    /** A homeroom teacher writes the homeroom comment on their own class here. */
+    reportCards: '/teacher/report-cards',
+    reportCardDetail: (id: number | string) => `/teacher/report-cards/${id}`,
+  },
+
+  /**
+   * The report card pages are mounted twice: once for the office and once inside
+   * the teacher workspace. Links have to stay in whichever workspace the visitor
+   * is already in, or a homeroom teacher clicking a pupil lands in the
+   * administrator interface.
+   */
+  reportCardsFor: (pathname: string) => {
+    const base = pathname.startsWith('/teacher/')
+      ? '/teacher/report-cards'
+      : pathname.startsWith('/parent/')
+        ? '/parent/report-cards'
+        : '/report-cards';
+
+    return { list: base, detail: (id: number | string) => `${base}/${id}` };
   },
 
   /** The student portal — Grades 7-9 log in here daily, mostly from a phone. */
@@ -69,7 +90,6 @@ export const ROUTES = {
     homework: '/student/homework',
     grades: '/student/grades',
     attendance: '/student/attendance',
-    nationalExam: '/student/national-exam',
     announcements: '/student/announcements',
   },
 
@@ -82,6 +102,30 @@ export const ROUTES = {
     homework: '/parent/homework',
     behavior: '/parent/behavior',
     reportCards: '/parent/report-cards',
+    reportCardDetail: (id: number | string) => `/parent/report-cards/${id}`,
     announcements: '/parent/announcements',
   },
 } as const;
+
+/**
+ * The profile page inside the signed-in person's own workspace.
+ *
+ * Every shell has its own profile route. Sending everyone to `ROUTES.profile`
+ * dropped teachers, students and guardians into the administrator shell, which
+ * is not theirs and, for a student, showed a dashboard they cannot read.
+ */
+export const profileRouteFor = (roles: string[]): string => {
+  if (roles.some((role) => ['TEACHER', 'HOMEROOM_TEACHER'].includes(role))) {
+    return '/teacher/profile';
+  }
+
+  if (roles.includes('PARENT')) {
+    return '/parent/profile';
+  }
+
+  if (roles.includes('STUDENT')) {
+    return '/student/profile';
+  }
+
+  return ROUTES.profile;
+};

@@ -84,7 +84,7 @@ export const GradesPage = () => {
     }
 
     classService
-      .listSubjects(Number(classId))
+      .listSubjects(Number(classId), { mine: true })
       .then(setClassSubjects)
       .catch(() => setClassSubjects([]));
   }, [classId]);

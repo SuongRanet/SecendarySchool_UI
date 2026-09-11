@@ -206,8 +206,17 @@ export const classService = {
 
   archive: (id: number): Promise<null> => api.delete<null>(`/classes/${id}`),
 
-  listSubjects: (id: number): Promise<ClassSubject[]> =>
-    api.get<ClassSubject[]>(`/classes/${id}/subjects`),
+  /**
+   * The subjects a class is taught.
+   *
+   * `mine` narrows the answer to the caller's own class-subject pairs, which is
+   * what a mark sheet wants: the server refuses a save for a subject the teacher
+   * does not teach, so offering the rest is offering a dead end. Views that show
+   * the curriculum itself — the class page, the timetable — omit it and get
+   * everything.
+   */
+  listSubjects: (id: number, options: { mine?: boolean } = {}): Promise<ClassSubject[]> =>
+    api.get<ClassSubject[]>(`/classes/${id}/subjects`, cleanParams(options)),
 
   assignSubject: (
     id: number,

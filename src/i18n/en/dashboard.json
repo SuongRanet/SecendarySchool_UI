@@ -17,7 +17,12 @@
     "enrollmentByGrade": "Enrollment by grade",
     "attendanceOverview": "Attendance overview",
     "studentStatus": "Student status",
-    "classDistribution": "Class distribution"
+    "classDistribution": "Class distribution",
+    "attendanceDate": "Attendance date",
+    "noRegister": "No register for this day",
+    "noRegisterHint": "Nobody was marked on this date. It may have been a holiday, or the register was never taken.",
+    "noRegisterTodayHint": "The register has not been taken yet today. Pick an earlier date to see a completed day.",
+    "attendanceRate": "Attendance"
   },
   "principal": {
     "title": "School performance",

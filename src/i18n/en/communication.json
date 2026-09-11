@@ -120,7 +120,9 @@
       "score": "Score",
       "save": "Save feedback",
       "submittedAt": "Submitted",
-      "notSubmitted": "Not submitted"
+      "notSubmitted": "Not submitted",
+      "submittedOn": "Handed in {{date}}",
+      "nothingHandedIn": "Nothing has been handed in yet"
     },
     "empty": {
       "title": "No homework yet",
