@@ -1,10 +1,10 @@
-# Hun Sen Turi Secondary School — Management System (Frontend)
+# Hun Sen Turey Secondary School — Management System (Frontend)
 
-The web client for the Hun Sen Turi Secondary School Management System, a lower secondary school
+The web client for the Hun Sen Turey Secondary School Management System, a lower secondary school
 (junior high) in Cambodia serving **Grade 7, Grade 8 and Grade 9**.
 
 ```text
-School      Hun Sen Turi Secondary School
+School      Hun Sen Turey Secondary School
 Type        Lower secondary school (junior high), Cambodia
 Grades      Grade 7 · Grade 8 · Grade 9
 Curriculum  Cambodian lower secondary (MoEYS)
@@ -100,7 +100,7 @@ The interface is role-based; each role gets its own shell and navigation.
 
 ```text
 VITE_API_URL=http://localhost:3000/api/v1
-VITE_APP_NAME=Hun Sen Turi Secondary School
+VITE_APP_NAME=Hun Sen Turey Secondary School
 VITE_DEFAULT_LANGUAGE=en
 ```
 

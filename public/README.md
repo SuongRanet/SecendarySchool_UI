@@ -5,7 +5,7 @@ at `/school-gate.jpg`.
 
 ## school-gate.jpg
 
-The photograph on the login page: the Hun Sen Turi school gate.
+The photograph on the login page: the Hun Sen Turey school gate.
 
 Save the photo here with exactly this name. The login page loads it by URL rather
 than importing it, so nothing needs rebuilding — refresh the browser and it

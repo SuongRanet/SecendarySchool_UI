@@ -5,7 +5,7 @@ import { GraduationCap } from 'lucide-react';
 import { LanguageSwitcher } from '@/components/navigation/LanguageSwitcher';
 import { ThemeToggle } from '@/components/navigation/ThemeToggle';
 
-const APP_NAME = import.meta.env.VITE_APP_NAME ?? 'Hun Sen Turi';
+const APP_NAME = import.meta.env.VITE_APP_NAME ?? 'Hun Sen Turey';
 
 /**
  * Served from `public/`, not imported, so that replacing the photograph is a

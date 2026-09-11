@@ -7,7 +7,7 @@ import { Archive, Megaphone, Pencil, Pin, Plus, Send, Trash2 } from 'lucide-reac
 import { PERMISSIONS } from '@/constants/permissions';
 import { announcementService } from '@/services/engagement.service';
 import { ApiError } from '@/types/api';
-import { ANNOUNCEMENT_AUDIENCES, ANNOUNCEMENT_STATUSES } from '@/types/domain';
+import { ANNOUNCEMENT_AUDIENCES, ANNOUNCEMENT_FILTER_STATUSES } from '@/types/domain';
 import type { AnnouncementAudience, AnnouncementStatus } from '@/types/domain';
 import type { Announcement } from '@/types/entities';
 import { useAcademicOptions, useClassOptions } from '@/hooks/useAcademicOptions';
@@ -179,7 +179,7 @@ export const AnnouncementsPage = () => {
                 value={list.query.filters.status ?? ''}
                 onChange={(event) => list.setFilter('status', event.target.value)}
                 placeholder={t('common:labels.status')}
-                options={ANNOUNCEMENT_STATUSES.map((status) => ({
+                options={ANNOUNCEMENT_FILTER_STATUSES.map((status) => ({
                   value: status,
                   label: t(`communication:announcementStatus.${status}`),
                 }))}

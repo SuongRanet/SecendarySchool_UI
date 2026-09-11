@@ -340,6 +340,16 @@ export const enrollmentService = {
   }): Promise<{ promoted: number; skipped: number }> =>
     api.post<{ promoted: number; skipped: number }>('/enrollments/promote', payload),
 
+  /**
+   * Ends the school career of the exit grade. The server decides who that is
+   * from `grade_levels.is_exit_grade`, so no class list is sent.
+   */
+  graduate: (payload: {
+    academicYearId: number;
+    excludeStudentIds?: number[];
+  }): Promise<{ graduated: number; skipped: number; classes: string[] }> =>
+    api.post('/enrollments/graduate', payload),
+
   statsByGrade: (
     academicYearId: number,
   ): Promise<{ gradeLevelId: number; gradeLevelName: string; count: number }[]> =>

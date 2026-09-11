@@ -179,7 +179,8 @@ export interface Teacher {
 }
 
 export interface TeacherAssignment {
-  classSubjectId: number;
+  /** Null on a homeroom class where this teacher teaches no subject. */
+  classSubjectId: number | null;
   classId: number;
   className: string;
   classCode: string;
@@ -187,8 +188,8 @@ export interface TeacherAssignment {
   academicYearName: string;
   gradeLevelId: number;
   gradeLevelName: string;
-  subjectId: number;
-  subjectName: string;
+  subjectId: number | null;
+  subjectName: string | null;
   isHomeroom: boolean;
   studentCount: number;
 }
@@ -483,6 +484,8 @@ export interface DailyAttendancePoint {
 export interface TodayAttendanceOverview extends AttendanceSummary {
   expected: number;
   notRecorded: number;
+  /** The day these figures belong to, echoed back by the API as YYYY-MM-DD. */
+  date: string;
 }
 
 export interface PendingAttendanceClass {
@@ -694,6 +697,7 @@ export interface ReportCard {
   classId: number;
   className: string;
   gradeLevelName: string;
+  homeroomTeacherId: number | null;
   homeroomTeacherName: string | null;
   totalScore: number | null;
   averageScore: number | null;
@@ -972,101 +976,3 @@ export interface StudentDashboard {
 // Grade 9 national examination (Diplôme)
 // ---------------------------------------------------------------------------
 
-export type NationalExamRegStatus =
-  | 'NOT_REGISTERED'
-  | 'REGISTERED'
-  | 'ADMITTED'
-  | 'SAT'
-  | 'ABSENT'
-  | 'RESULT_PUBLISHED';
-
-export type NationalExamGrade = 'A' | 'B' | 'C' | 'D' | 'E' | 'F';
-
-export interface NationalExamSession {
-  id: number;
-  academicYearId: number;
-  academicYearName: string | null;
-  name: string;
-  centreName: string | null;
-  centreCode: string | null;
-  startsOn: string;
-  endsOn: string;
-  registrationDeadline: string | null;
-  isOpen: boolean;
-  notes: string | null;
-  registeredCount: number;
-  resultCount: number;
-  passCount: number;
-  passRate: number | null;
-}
-
-export interface NationalExamSubjectScore {
-  subjectId: number;
-  subjectCode: string | null;
-  subjectName: string | null;
-  subjectNameKh: string | null;
-  score: number;
-  maxScore: number;
-}
-
-export interface NationalExamResult {
-  id: number;
-  registrationId: number;
-  resultGrade: NationalExamGrade;
-  totalScore: number | null;
-  isPass: boolean;
-  publishedOn: string;
-  amendmentReason: string | null;
-  supersededAt: string | null;
-  subjectScores: NationalExamSubjectScore[];
-}
-
-export interface NationalExamRegistration {
-  id: number;
-  sessionId: number;
-  sessionName: string | null;
-  centreName: string | null;
-  startsOn: string | null;
-  endsOn: string | null;
-  academicYearId: number | null;
-  academicYearName: string | null;
-  studentId: number;
-  studentCode: string | null;
-  studentName: string | null;
-  studentNameKh: string | null;
-  gender: string | null;
-  dateOfBirth: string | null;
-  enrollmentId: number;
-  classId: number | null;
-  className: string | null;
-  seatNumber: string | null;
-  attempt: number;
-  status: NationalExamRegStatus;
-  remarks: string | null;
-  result: {
-    resultGrade: NationalExamGrade;
-    totalScore: number | null;
-    isPass: boolean;
-    publishedOn: string;
-  } | null;
-}
-
-export interface NationalExamStatistics {
-  sessionId: number;
-  registered: number;
-  sat: number;
-  absent: number;
-  published: number;
-  passed: number;
-  failed: number;
-  passRate: number | null;
-  byClass: {
-    classId: number;
-    className: string;
-    registered: number;
-    published: number;
-    passed: number;
-    passRate: number | null;
-  }[];
-  byGrade: { resultGrade: NationalExamGrade; count: number }[];
-}

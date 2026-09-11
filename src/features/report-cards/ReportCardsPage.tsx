@@ -1,11 +1,11 @@
 import { useCallback, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Eye, FileCheck2, Send } from 'lucide-react';
 import { PERMISSIONS } from '@/constants/permissions';
 import { ROUTES } from '@/constants/routes';
 import { reportCardService } from '@/services/performance.service';
-import { REPORT_CARD_STATUSES } from '@/types/domain';
+import { REPORT_CARD_FILTER_STATUSES } from '@/types/domain';
 import type { ReportCardSummary } from '@/types/entities';
 import { useAcademicOptions, useClassOptions } from '@/hooks/useAcademicOptions';
 import { useListQuery } from '@/hooks/useListQuery';
@@ -32,6 +32,7 @@ import { RowActions } from '@/components/tables/RowActions';
 export const ReportCardsPage = () => {
   const { t } = useTranslation(['performance', 'common', 'academics']);
   const navigate = useNavigate();
+  const reportCardRoutes = ROUTES.reportCardsFor(useLocation().pathname);
   const language = useLanguageStore((state) => state.language);
   const { has } = usePermission();
   const { run } = useMutation();
@@ -129,7 +130,7 @@ export const ReportCardsPage = () => {
               key: 'view',
               label: t('common:actions.viewDetails'),
               icon: <Eye className="size-4" />,
-              onSelect: () => navigate(ROUTES.reportCardDetail(card.id)),
+              onSelect: () => navigate(reportCardRoutes.detail(card.id)),
             },
             ...(canPublish && card.status !== 'PUBLISHED'
               ? [
@@ -210,7 +211,7 @@ export const ReportCardsPage = () => {
               value={list.query.filters.status ?? ''}
               onChange={(event) => list.setFilter('status', event.target.value)}
               placeholder={t('common:labels.status')}
-              options={REPORT_CARD_STATUSES.map((status) => ({
+              options={REPORT_CARD_FILTER_STATUSES.map((status) => ({
                 value: status,
                 label: t(`performance:reportCardStatus.${status}`),
               }))}
@@ -227,7 +228,7 @@ export const ReportCardsPage = () => {
         error={list.error}
         onRetry={list.refresh}
         isFiltered={list.isFiltered}
-        onRowClick={(card) => navigate(ROUTES.reportCardDetail(card.id))}
+        onRowClick={(card) => navigate(reportCardRoutes.detail(card.id))}
         emptyTitle={t('performance:reportCards.empty.title')}
         emptyMessage={t('performance:reportCards.empty.message')}
         footer={

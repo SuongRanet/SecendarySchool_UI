@@ -154,8 +154,15 @@ export const attendanceService = {
   }): Promise<DailyAttendancePoint[]> =>
     api.get<DailyAttendancePoint[]>('/attendance/trend', cleanParams(query)),
 
-  today: (academicYearId?: number): Promise<TodayAttendanceOverview> =>
-    api.get<TodayAttendanceOverview>('/attendance/today', cleanParams({ academicYearId })),
+  /**
+   * The register totals for one day, defaulting to today.
+   *
+   * The dashboard uses this to move between days without reloading the whole
+   * page: only the attendance panel refetches, so the rest of the overview
+   * stays on screen instead of flashing back to a spinner on every change.
+   */
+  day: (date?: string, academicYearId?: number): Promise<TodayAttendanceOverview> =>
+    api.get<TodayAttendanceOverview>('/attendance/today', cleanParams({ date, academicYearId })),
 
   missing: (
     query: { academicYearId?: number; date?: string; teacherId?: number } = {},

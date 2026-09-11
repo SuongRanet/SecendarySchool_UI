@@ -10,7 +10,7 @@ import { ROUTES } from '@/constants/routes';
 import { classService } from '@/services/academic.service';
 import { assessmentService } from '@/services/performance.service';
 import { ApiError } from '@/types/api';
-import { ASSESSMENT_TYPES } from '@/types/domain';
+import { ASSESSMENT_TYPES, CREATABLE_ASSESSMENT_TYPES } from '@/types/domain';
 import type { AssessmentType } from '@/types/domain';
 import type { Assessment, ClassSubject } from '@/types/entities';
 import { useAcademicOptions, useClassOptions } from '@/hooks/useAcademicOptions';
@@ -62,6 +62,15 @@ export const AssessmentsPage = () => {
 
   const [isFormOpen, setFormOpen] = useState(false);
   const [editing, setEditing] = useState<Assessment | null>(null);
+
+  /**
+   * What the type picker offers: the three the school assesses on, plus the
+   * type of the assessment being edited when that is something older.
+   */
+  const typeOptions =
+    editing && !CREATABLE_ASSESSMENT_TYPES.some((type) => type === editing.type)
+      ? [...CREATABLE_ASSESSMENT_TYPES, editing.type]
+      : [...CREATABLE_ASSESSMENT_TYPES];
   const [classSubjects, setClassSubjects] = useState<ClassSubject[]>([]);
   const [confirmArchive, setConfirmArchive] = useState<Assessment | null>(null);
 
@@ -106,7 +115,7 @@ export const AssessmentsPage = () => {
     }
 
     classService
-      .listSubjects(Number(watchedClassId))
+      .listSubjects(Number(watchedClassId), { mine: true })
       .then(setClassSubjects)
       .catch(() => setClassSubjects([]));
   }, [watchedClassId]);
@@ -462,7 +471,15 @@ export const AssessmentsPage = () => {
               {({ id }) => (
                 <Select
                   id={id}
-                  options={ASSESSMENT_TYPES.map((type) => ({
+                  /*
+                   * The three the school assesses on, plus whatever the
+                   * assessment being edited already is.
+                   *
+                   * Without that second part, opening one of the existing
+                   * homework assessments would show an empty type and silently
+                   * reclassify it on save.
+                   */
+                  options={typeOptions.map((type) => ({
                     value: type,
                     label: t(`performance:assessments.type.${type}`),
                   }))}

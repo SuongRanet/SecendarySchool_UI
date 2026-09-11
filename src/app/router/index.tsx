@@ -34,12 +34,12 @@ import { EnrollmentsPage } from '@/features/enrollments/EnrollmentsPage';
 import { SchedulesPage } from '@/features/schedules/SchedulesPage';
 import { AttendancePage } from '@/features/attendance/AttendancePage';
 
-import { AssessmentsPage } from '@/features/assessments/AssessmentsPage';
-import { AssessmentDetailPage } from '@/features/assessments/AssessmentDetailPage';
 import { ExamsPage } from '@/features/exams/ExamsPage';
 import { GradesPage } from '@/features/grades/GradesPage';
 import { ReportCardsPage } from '@/features/report-cards/ReportCardsPage';
 import { ReportCardDetailPage } from '@/features/report-cards/ReportCardDetailPage';
+import { AssessmentsPage } from '@/features/assessments/AssessmentsPage';
+import { AssessmentDetailPage } from '@/features/assessments/AssessmentDetailPage';
 import { AssignmentsPage } from '@/features/assignments/AssignmentsPage';
 import { BehaviorsPage } from '@/features/behaviors/BehaviorsPage';
 
@@ -70,7 +70,6 @@ import {
   StudentDashboardPage,
   StudentGradesPage,
   StudentHomeworkPage,
-  StudentNationalExamPage,
   StudentSchedulePage,
 } from '@/features/student-portal/StudentPortalPages';
 
@@ -151,13 +150,19 @@ export const AppRouter = () => (
           <Route path={ROUTES.attendance} element={<AttendancePage />} />
         </Route>
 
+        <Route element={<RequirePermission permissions={[PERMISSIONS.EXAMS_VIEW]} />}>
+          <Route path={ROUTES.exams} element={<ExamsPage />} />
+        </Route>
+
+        {/*
+          * Marks are entered against one assessment at a time, which is what the
+          * detail page is for. Both pages existed and neither was ever routed,
+          * so the "pending grade entry" list on the dashboard named work that
+          * could not be reached from anywhere in the application.
+          */}
         <Route element={<RequirePermission permissions={[PERMISSIONS.ASSESSMENTS_VIEW]} />}>
           <Route path={ROUTES.assessments} element={<AssessmentsPage />} />
           <Route path="/assessments/:id" element={<AssessmentDetailPage />} />
-        </Route>
-
-        <Route element={<RequirePermission permissions={[PERMISSIONS.EXAMS_VIEW]} />}>
-          <Route path={ROUTES.exams} element={<ExamsPage />} />
         </Route>
 
         <Route element={<RequirePermission permissions={[PERMISSIONS.GRADES_VIEW]} />}>
@@ -209,10 +214,13 @@ export const AppRouter = () => (
           <Route path={ROUTES.teacher.schedule} element={<TeacherSchedulePage />} />
           <Route path={ROUTES.teacher.attendance} element={<AttendancePage />} />
           <Route path={ROUTES.teacher.assessments} element={<AssessmentsPage />} />
+          <Route path="/teacher/assessments/:id" element={<AssessmentDetailPage />} />
           <Route path={ROUTES.teacher.grades} element={<GradesPage />} />
           <Route path={ROUTES.teacher.assignments} element={<AssignmentsPage />} />
           <Route path={ROUTES.teacher.behavior} element={<BehaviorsPage />} />
           <Route path={ROUTES.teacher.announcements} element={<AnnouncementsPage />} />
+          <Route path={ROUTES.teacher.reportCards} element={<ReportCardsPage />} />
+          <Route path="/teacher/report-cards/:id" element={<ReportCardDetailPage />} />
           <Route path="/teacher/profile" element={<ProfilePage />} />
         </Route>
       </Route>
@@ -225,7 +233,6 @@ export const AppRouter = () => (
           <Route path={ROUTES.student.homework} element={<StudentHomeworkPage />} />
           <Route path={ROUTES.student.grades} element={<StudentGradesPage />} />
           <Route path={ROUTES.student.attendance} element={<StudentAttendancePage />} />
-          <Route path={ROUTES.student.nationalExam} element={<StudentNationalExamPage />} />
           <Route path={ROUTES.student.announcements} element={<AnnouncementsPage />} />
           <Route path="/student/profile" element={<ProfilePage />} />
         </Route>
@@ -242,6 +249,7 @@ export const AppRouter = () => (
           <Route path={ROUTES.parent.homework} element={<ParentHomeworkPage />} />
           <Route path={ROUTES.parent.behavior} element={<ParentBehaviorPage />} />
           <Route path={ROUTES.parent.reportCards} element={<ParentReportCardsPage />} />
+          <Route path="/parent/report-cards/:id" element={<ReportCardDetailPage />} />
           <Route path={ROUTES.parent.announcements} element={<AnnouncementsPage />} />
           <Route path="/parent/profile" element={<ProfilePage />} />
         </Route>

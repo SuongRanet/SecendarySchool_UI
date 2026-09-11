@@ -1,5 +1,52 @@
 @import "tailwindcss";
 
+/* ---------------------------------------------------------------------------
+ * Kantumruy Pro
+ *
+ * The Khmer typeface for the whole application, self-hosted rather than pulled
+ * from Google Fonts: the school's connection is not dependable, and a webfont
+ * that fails to arrive would drop Khmer text back to whatever the machine
+ * happens to have installed — which on many Windows machines is Khmer OS, a
+ * face whose subscript consonants and vowel stacks sit noticeably differently.
+ * Shipping the files keeps the register, report cards and name fields legible
+ * offline and identical on every device.
+ *
+ * The three subsets are split by `unicode-range` so a browser showing an
+ * English page downloads the 33 KB Latin file and never touches the 57 KB
+ * Khmer one. Each file is a variable font covering weights 100-700, so the
+ * whole weight range costs one request rather than seven.
+ */
+@font-face {
+  font-family: "Kantumruy Pro";
+  font-style: normal;
+  font-weight: 100 700;
+  font-display: swap;
+  src: url("../assets/fonts/kantumruy-pro-khmer.woff2") format("woff2");
+  unicode-range: U+1780-17FF, U+19E0-19FF, U+200C-200D, U+25CC;
+}
+
+@font-face {
+  font-family: "Kantumruy Pro";
+  font-style: normal;
+  font-weight: 100 700;
+  font-display: swap;
+  src: url("../assets/fonts/kantumruy-pro-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: "Kantumruy Pro";
+  font-style: normal;
+  font-weight: 100 700;
+  font-display: swap;
+  src: url("../assets/fonts/kantumruy-pro-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 /*
  * Dark mode is driven by a `dark` class on <html> rather than the OS preference
  * alone, because the theme store supports an explicit Light / Dark / System choice.
@@ -25,8 +72,13 @@
   --color-primary-900: oklch(0.38 0.135 265.5);
   --color-primary-950: oklch(0.28 0.093 267.9);
 
-  --font-sans: "Inter", "Noto Sans Khmer", ui-sans-serif, system-ui, sans-serif;
-  --font-khmer: "Noto Sans Khmer", "Khmer OS", ui-sans-serif, sans-serif;
+  /*
+   * Khmer sits in both stacks. Latin text prefers Inter, but any Khmer
+   * codepoint inside it falls through to Kantumruy Pro rather than to a system
+   * face, so a mixed line such as "Grade 7A · ថ្នាក់ទី៧ក" renders as one design.
+   */
+  --font-sans: "Inter", "Kantumruy Pro", ui-sans-serif, system-ui, sans-serif;
+  --font-khmer: "Kantumruy Pro", "Noto Sans Khmer", "Khmer OS", ui-sans-serif, sans-serif;
 
   --radius-card: 0.75rem;
 }
@@ -38,115 +90,114 @@
 @layer base {
   :root {
     /* -------------------------------------------------------------------------
-     Base
+     Base (Cool Slate Neutral)
      ------------------------------------------------------------------------- */
-    --background: oklch(0.985 0.008 90);
+    --background: oklch(0.985 0.005 260);
     --surface: oklch(1 0 0);
-    --surface-muted: oklch(0.965 0.014 90);
-    --surface-hover: oklch(0.95 0.025 88);
+    --surface-muted: oklch(0.965 0.008 260);
+    --surface-hover: oklch(0.94 0.012 260);
 
-    --border: oklch(0.89 0.018 80);
-    --border-strong: oklch(0.8 0.035 78);
+    --border: oklch(0.91 0.01 260);
+    --border-strong: oklch(0.82 0.02 260);
 
-    --text: oklch(0.22 0.025 65);
-    --text-muted: oklch(0.48 0.025 70);
-    --text-subtle: oklch(0.62 0.022 75);
-    --text-inverted: oklch(0.985 0.008 90);
-
-    /* -------------------------------------------------------------------------
-     Primary — #FBC02D Gold
-     ------------------------------------------------------------------------- */
-    --primary: oklch(0.8 0.17 85);
-    --primary-hover: oklch(0.73 0.18 82);
-    --primary-soft: oklch(0.96 0.055 88);
-    --primary-contrast: oklch(0.2 0.025 65);
+    --text: oklch(0.18 0.03 260);
+    --text-muted: oklch(0.45 0.025 260);
+    --text-subtle: oklch(0.60 0.02 260);
+    --text-inverted: oklch(0.985 0.005 260);
 
     /* -------------------------------------------------------------------------
-     Accent — Modern Green
+     Primary — Electric Indigo
      ------------------------------------------------------------------------- */
-    --accent: oklch(0.66 0.13 155);
-    --accent-soft: oklch(0.95 0.035 155);
+    --primary: oklch(0.55 0.22 265);
+    --primary-hover: oklch(0.48 0.24 265);
+    --primary-soft: oklch(0.95 0.03 265);
+    --primary-contrast: oklch(0.99 0 0);
+
+    /* -------------------------------------------------------------------------
+     Accent — Bright Cyan
+     ------------------------------------------------------------------------- */
+    --accent: oklch(0.65 0.17 195);
+    --accent-soft: oklch(0.95 0.035 195);
 
     /* -------------------------------------------------------------------------
      Semantic Colors
      ------------------------------------------------------------------------- */
+    --success: oklch(0.62 0.17 155);
+    --success-soft: oklch(0.95 0.035 155);
 
-    --success: oklch(0.63 0.145 150);
-    --success-soft: oklch(0.95 0.04 150);
+    --warning: oklch(0.75 0.16 75);
+    --warning-soft: oklch(0.96 0.04 75);
 
-    --warning: oklch(0.8 0.17 85);
-    --warning-soft: oklch(0.96 0.055 88);
+    --danger: oklch(0.62 0.22 22);
+    --danger-soft: oklch(0.95 0.04 22);
 
-    --danger: oklch(0.6 0.19 27);
-    --danger-soft: oklch(0.95 0.04 25);
-
-    --info: oklch(0.62 0.115 245);
-    --info-soft: oklch(0.95 0.03 245);
+    --info: oklch(0.60 0.16 235);
+    --info-soft: oklch(0.95 0.03 235);
 
     /* -------------------------------------------------------------------------
      Focus / Shadow
      ------------------------------------------------------------------------- */
-    --ring: oklch(0.8 0.17 85);
-    --shadow-color: 40 25% 20%;
+    --ring: oklch(0.55 0.22 265);
+    --shadow-color: 250 30% 15%;
 
     color-scheme: light;
   }
 
   .dark {
     /* -------------------------------------------------------------------------
-     Base
+     Base (Deep Slate Dark)
      ------------------------------------------------------------------------- */
-    --background: oklch(0.18 0.018 65);
-    --surface: oklch(0.23 0.022 65);
-    --surface-muted: oklch(0.27 0.026 65);
-    --surface-hover: oklch(0.31 0.032 65);
+    --background: oklch(0.14 0.02 260);
+    --surface: oklch(0.18 0.025 260);
+    --surface-muted: oklch(0.22 0.03 260);
+    --surface-hover: oklch(0.27 0.035 260);
 
-    --border: oklch(0.34 0.028 65);
-    --border-strong: oklch(0.44 0.035 65);
+    --border: oklch(0.28 0.03 260);
+    --border-strong: oklch(0.38 0.035 260);
 
-    --text: oklch(0.96 0.008 90);
-    --text-muted: oklch(0.75 0.018 80);
-    --text-subtle: oklch(0.62 0.02 75);
-    --text-inverted: oklch(0.2 0.025 65);
+    --text: oklch(0.96 0.008 260);
+    --text-muted: oklch(0.72 0.02 260);
+    --text-subtle: oklch(0.58 0.02 260);
+    --text-inverted: oklch(0.14 0.02 260);
 
     /* -------------------------------------------------------------------------
-     Primary — Gold
+     Primary — Electric Indigo (Dark Mode Adjusted)
      ------------------------------------------------------------------------- */
-    --primary: oklch(0.8 0.17 85);
-    --primary-hover: oklch(0.86 0.15 88);
-    --primary-soft: oklch(0.32 0.075 85);
-    --primary-contrast: oklch(0.18 0.018 65);
+    --primary: oklch(0.68 0.21 265);
+    --primary-hover: oklch(0.75 0.19 265);
+    --primary-soft: oklch(0.25 0.07 265);
+    --primary-contrast: oklch(0.12 0.02 260);
 
     /* -------------------------------------------------------------------------
-     Accent — Green
+     Accent — Bright Cyan
      ------------------------------------------------------------------------- */
-    --accent: oklch(0.72 0.12 155);
-    --accent-soft: oklch(0.3 0.05 155);
+    --accent: oklch(0.72 0.16 195);
+    --accent-soft: oklch(0.26 0.05 195);
 
     /* -------------------------------------------------------------------------
      Semantic Colors
      ------------------------------------------------------------------------- */
+    --success: oklch(0.70 0.16 155);
+    --success-soft: oklch(0.25 0.05 155);
 
-    --success: oklch(0.72 0.13 150);
-    --success-soft: oklch(0.3 0.05 150);
+    --warning: oklch(0.78 0.15 75);
+    --warning-soft: oklch(0.28 0.06 75);
 
-    --warning: oklch(0.82 0.15 85);
-    --warning-soft: oklch(0.32 0.06 85);
+    --danger: oklch(0.68 0.20 22);
+    --danger-soft: oklch(0.27 0.06 22);
 
-    --danger: oklch(0.7 0.17 25);
-    --danger-soft: oklch(0.31 0.065 25);
-
-    --info: oklch(0.72 0.11 245);
-    --info-soft: oklch(0.3 0.05 245);
+    --info: oklch(0.70 0.14 235);
+    --info-soft: oklch(0.26 0.05 235);
 
     /* -------------------------------------------------------------------------
      Focus / Shadow
      ------------------------------------------------------------------------- */
-    --ring: oklch(0.8 0.17 85);
-    --shadow-color: 40 35% 3%;
+    --ring: oklch(0.68 0.21 265);
+    --shadow-color: 260 40% 4%;
 
     color-scheme: dark;
   }
+}
 
   * {
     border-color: var(--border);
@@ -198,7 +249,7 @@
     border: 2px solid transparent;
     background-clip: content-box;
   }
-}
+
 
 /* ---------------------------------------------------------------------------
  * Utilities mapped onto the semantic tokens

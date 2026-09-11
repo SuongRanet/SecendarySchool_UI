@@ -74,7 +74,8 @@
       "status": "Account status",
       "lastLogin": "Last sign-in",
       "profileType": "Linked record",
-      "permissions": "Permissions"
+      "permissions": "Permissions",
+      "code": "My ID"
     },
     "noProfile": "No student, teacher or guardian record is linked to this account.",
     "changePassword": "Change password",

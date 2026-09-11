@@ -154,14 +154,6 @@ export const TeacherDashboardPage = () => {
         <Card>
           <CardHeader
             title={t('dashboard:teacher.pendingGradeEntry')}
-            action={
-              <Link
-                to={ROUTES.teacher.assessments}
-                className="text-sm text-[var(--primary)] hover:underline"
-              >
-                {t('common:actions.viewAll')}
-              </Link>
-            }
           />
           <CardBody className="p-0">
             {data.pendingGrading.length === 0 ? (
@@ -172,22 +164,32 @@ export const TeacherDashboardPage = () => {
             ) : (
               <ul className="divide-y divide-[var(--border)]">
                 {data.pendingGrading.map((assessment) => (
-                  <li
-                    key={assessment.id}
-                    className="flex items-center justify-between gap-3 px-5 py-3"
-                  >
-                    <div className="min-w-0">
-                      <p className="truncate text-sm font-medium text-[var(--text)]">
-                        {assessment.title}
-                      </p>
-                      <p className="truncate text-xs text-[var(--text-subtle)]">
-                        {assessment.className} · {assessment.subjectName}
-                      </p>
-                    </div>
+                  <li key={assessment.id}>
+                    {/*
+                      * The row is the way in to entering the marks.
+                      *
+                      * It used to be inert text: the card named the work waiting
+                      * to be marked and offered no route to marking it, and the
+                      * page that does the marking was not reachable from
+                      * anywhere in the application.
+                      */}
+                    <Link
+                      to={ROUTES.teacher.assessmentDetail(assessment.id)}
+                      className="flex items-center justify-between gap-3 px-5 py-3 transition-colors hover:bg-[var(--surface-hover)]"
+                    >
+                      <span className="min-w-0">
+                        <span className="block truncate text-sm font-medium text-[var(--text)]">
+                          {assessment.title}
+                        </span>
+                        <span className="block truncate text-xs text-[var(--text-subtle)]">
+                          {assessment.className} · {assessment.subjectName}
+                        </span>
+                      </span>
 
-                    <Badge tone="warning" size="sm">
-                      {assessment.gradedCount}/{assessment.studentCount}
-                    </Badge>
+                      <Badge tone="warning" size="sm">
+                        {assessment.gradedCount}/{assessment.studentCount}
+                      </Badge>
+                    </Link>
                   </li>
                 ))}
               </ul>

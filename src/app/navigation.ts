@@ -6,6 +6,7 @@ import {
   CalendarRange,
   ClipboardCheck,
   ClipboardList,
+  NotebookPen,
   DoorOpen,
   FileBadge,
   GraduationCap,
@@ -13,7 +14,6 @@ import {
   LayoutDashboard,
   Layers,
   Megaphone,
-  NotebookPen,
   ScrollText,
   Settings,
   ShieldCheck,
@@ -22,6 +22,7 @@ import {
   UsersRound,
 } from 'lucide-react';
 import { PERMISSIONS } from '@/constants/permissions';
+import type { NotificationType } from '@/types/domain';
 
 export interface NavItem {
   key: string;
@@ -31,6 +32,14 @@ export interface NavItem {
   icon: LucideIcon;
   /** The user needs at least one of these permissions to see the item. */
   permissions?: string[];
+  /**
+   * Unread notification types this item counts.
+   *
+   * The badge answers "is there something here for me" without opening the
+   * page: homework handed in, for a teacher; homework set or marked, for a
+   * pupil. It clears as those notifications are read.
+   */
+  badgeTypes?: NotificationType[];
   end?: boolean;
 }
 
@@ -154,18 +163,18 @@ export const ADMIN_NAVIGATION: NavSection[] = [
     labelKey: 'sections.performance',
     items: [
       {
-        key: 'assessments',
-        labelKey: 'items.assessments',
-        to: '/assessments',
-        icon: NotebookPen,
-        permissions: [PERMISSIONS.ASSESSMENTS_VIEW],
-      },
-      {
         key: 'exams',
         labelKey: 'items.exams',
         to: '/exams',
         icon: FileBadge,
         permissions: [PERMISSIONS.EXAMS_VIEW],
+      },
+      {
+        key: 'assessments',
+        labelKey: 'items.assessments',
+        to: '/assessments',
+        icon: NotebookPen,
+        permissions: [PERMISSIONS.ASSESSMENTS_VIEW],
       },
       {
         key: 'grades',
@@ -290,6 +299,13 @@ export const TEACHER_NAVIGATION: NavSection[] = [
         labelKey: 'items.assignments',
         to: '/teacher/assignments',
         icon: ClipboardList,
+        badgeTypes: ['HOMEWORK_SUBMITTED'],
+      },
+      {
+        key: 'reportCards',
+        labelKey: 'items.reportCards',
+        to: '/teacher/report-cards',
+        icon: FileBadge,
       },
       { key: 'behaviors', labelKey: 'items.behaviors', to: '/teacher/behavior', icon: Heart },
     ],
@@ -345,6 +361,7 @@ export const PARENT_NAVIGATION: NavSection[] = [
         labelKey: 'items.assignments',
         to: '/parent/homework',
         icon: ClipboardList,
+        badgeTypes: ['NEW_ASSIGNMENT'],
       },
       { key: 'behavior', labelKey: 'items.behaviors', to: '/parent/behavior', icon: Heart },
       {
@@ -401,6 +418,7 @@ export const STUDENT_NAVIGATION: NavSection[] = [
         labelKey: 'items.assignments',
         to: '/student/homework',
         icon: ClipboardList,
+        badgeTypes: ['NEW_ASSIGNMENT', 'HOMEWORK_GRADED'],
       },
       { key: 'grades', labelKey: 'items.grades', to: '/student/grades', icon: BarChart3 },
       {
@@ -408,13 +426,6 @@ export const STUDENT_NAVIGATION: NavSection[] = [
         labelKey: 'items.attendance',
         to: '/student/attendance',
         icon: ClipboardCheck,
-      },
-      {
-        key: 'nationalExam',
-        labelKey: 'items.nationalExam',
-        to: '/student/national-exam',
-        icon: FileBadge,
-        permissions: [PERMISSIONS.NATIONAL_EXAMS_VIEW],
       },
     ],
   },

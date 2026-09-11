@@ -16,7 +16,6 @@ import enPerformance from './en/performance.json';
 import enCommunication from './en/communication.json';
 import enOperations from './en/operations.json';
 import enSystem from './en/system.json';
-import enNationalExam from './en/nationalExam.json';
 import enStudentPortal from './en/studentPortal.json';
 
 import khCommon from './kh/common.json';
@@ -33,7 +32,6 @@ import khPerformance from './kh/performance.json';
 import khCommunication from './kh/communication.json';
 import khOperations from './kh/operations.json';
 import khSystem from './kh/system.json';
-import khNationalExam from './kh/nationalExam.json';
 import khStudentPortal from './kh/studentPortal.json';
 
 export const NAMESPACES = [
@@ -51,7 +49,6 @@ export const NAMESPACES = [
   'communication',
   'operations',
   'system',
-  'nationalExam',
   'studentPortal',
 ] as const;
 
@@ -71,7 +68,6 @@ export const resources = {
     communication: enCommunication,
     operations: enOperations,
     system: enSystem,
-    nationalExam: enNationalExam,
     studentPortal: enStudentPortal,
   },
   kh: {
@@ -89,7 +85,6 @@ export const resources = {
     communication: khCommunication,
     operations: khOperations,
     system: khSystem,
-    nationalExam: khNationalExam,
     studentPortal: khStudentPortal,
   },
 } as const;

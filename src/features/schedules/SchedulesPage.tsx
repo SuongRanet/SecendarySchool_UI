@@ -1,7 +1,8 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { AlertTriangle, Plus, Trash2 } from 'lucide-react';
+import { Spinner } from '@/components/ui/Spinner';
 import { PERMISSIONS } from '@/constants/permissions';
 import { classService } from '@/services/academic.service';
 import { scheduleService } from '@/services/operations.service';
@@ -68,6 +69,23 @@ export const SchedulesPage = () => {
   const [form, setForm] = useState<PeriodForm>(emptyForm);
   const [classSubjects, setClassSubjects] = useState<ClassSubject[]>([]);
   const [conflicts, setConflicts] = useState<ScheduleConflict[]>([]);
+  /**
+   * What the conflict panel actually knows.
+   *
+   * An empty conflict list used to mean three different things — not asked yet,
+   * the request failed, and genuinely free — and the panel reported all three as
+   * "this slot is free". Saying a slot is free is a claim about the server's
+   * data, so it may only be made after the server has answered.
+   */
+  const [checkState, setCheckState] = useState<'idle' | 'checking' | 'clear' | 'conflict' | 'error'>('idle');
+  /**
+   * Every change fires a request, and responses do not necessarily come back in
+   * the order they were sent. Without this a slow early reply ("no teacher
+   * chosen, nothing to clash with") can land after a fast later one and paint
+   * the slot green again.
+   */
+  const checkSeq = useRef(0);
+  const checkTimer = useRef<number | null>(null);
   const [isSaving, setSaving] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState<Schedule | null>(null);
 
@@ -123,6 +141,7 @@ export const SchedulesPage = () => {
     const classId = view === 'class' && targetId ? targetId : '';
     setForm({ ...emptyForm, classId });
     setConflicts([]);
+    setCheckState('idle');
     void loadClassSubjects(classId);
     setFormOpen(true);
   };
@@ -140,14 +159,34 @@ export const SchedulesPage = () => {
       endTime: period.endTime.slice(0, 5),
     });
     setConflicts([]);
+    setCheckState('idle');
     void loadClassSubjects(String(period.classId));
     setFormOpen(true);
   };
 
   /** Asks the API whether the slot is free before the teacher commits to it. */
   const checkConflicts = async (next: PeriodForm) => {
+    if (checkTimer.current !== null) {
+      window.clearTimeout(checkTimer.current);
+      checkTimer.current = null;
+    }
+
     if (!next.classId || !next.startTime || !next.endTime) {
       setConflicts([]);
+      setCheckState('idle');
+      return;
+    }
+
+    const seq = (checkSeq.current += 1);
+    setCheckState('checking');
+
+    // Typing into a time field fires on every keystroke; a short pause keeps the
+    // half-typed "0" from being asked about.
+    await new Promise<void>((resolve) => {
+      checkTimer.current = window.setTimeout(() => resolve(), 250);
+    });
+
+    if (seq !== checkSeq.current) {
       return;
     }
 
@@ -162,9 +201,22 @@ export const SchedulesPage = () => {
         excludeScheduleId: next.id ?? undefined,
       });
 
+      // A reply that has been overtaken by a newer request tells us nothing.
+      if (seq !== checkSeq.current) {
+        return;
+      }
+
       setConflicts(result.conflicts);
+      setCheckState(result.conflicts.length > 0 ? 'conflict' : 'clear');
     } catch {
+      if (seq !== checkSeq.current) {
+        return;
+      }
+
+      // The check did not happen, so nothing is known about the slot. Reporting
+      // it as free here is what made an occupied slot look bookable.
       setConflicts([]);
+      setCheckState('error');
     }
   };
 
@@ -211,6 +263,7 @@ export const SchedulesPage = () => {
 
         if (details?.conflicts) {
           setConflicts(details.conflicts);
+          setCheckState('conflict');
         }
 
         toast.error(caught.message);
@@ -258,7 +311,7 @@ export const SchedulesPage = () => {
           items={[
             { key: 'class', label: t('operations:schedules.views.class') },
             { key: 'teacher', label: t('operations:schedules.views.teacher') },
-            { key: 'room', label: t('operations:schedules.views.room') },
+            // { key: 'room', label: t('operations:schedules.views.room') },
           ]}
         />
 
@@ -329,7 +382,12 @@ export const SchedulesPage = () => {
               <Button
                 onClick={() => void save(false)}
                 isLoading={isSaving}
-                disabled={blockingConflicts.length > 0 || !form.classId || !form.subjectId}
+                disabled={
+                  blockingConflicts.length > 0 ||
+                  checkState === 'checking' ||
+                  !form.classId ||
+                  !form.subjectId
+                }
               >
                 {t('common:actions.save')}
               </Button>
@@ -456,14 +514,32 @@ export const SchedulesPage = () => {
             </FormField>
           </div>
 
-          {/* Conflict feedback, evaluated by the server as the form changes. */}
-          {conflicts.length === 0 && form.classId ? (
+          {/*
+            * Conflict feedback, evaluated by the server as the form changes.
+            * Each state says only what is actually known: "free" appears solely
+            * after the server has confirmed it for the current selection.
+            */}
+          {checkState === 'checking' ? (
+            <p className="flex items-center gap-2 rounded-lg bg-[var(--surface-muted)] p-3 text-sm text-[var(--text-muted)]">
+              <Spinner size="sm" />
+              {t('operations:schedules.conflicts.checking')}
+            </p>
+          ) : null}
+
+          {checkState === 'clear' ? (
             <p className="rounded-lg bg-[var(--success-soft)] p-3 text-sm text-[var(--success)]">
               {t('operations:schedules.conflicts.none')}
             </p>
           ) : null}
 
-          {conflicts.length > 0 ? (
+          {checkState === 'error' ? (
+            <p className="flex items-center gap-2 rounded-lg border border-[var(--warning)]/30 bg-[var(--warning-soft)] p-3 text-sm text-[var(--warning)]">
+              <AlertTriangle className="size-4" aria-hidden="true" />
+              {t('operations:schedules.conflicts.checkFailed')}
+            </p>
+          ) : null}
+
+          {checkState === 'conflict' && conflicts.length > 0 ? (
             <div
               className={
                 blockingConflicts.length > 0

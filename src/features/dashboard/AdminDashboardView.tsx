@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { ROUTES } from '@/constants/routes';
 import { dashboardService } from '@/services/admin.service';
+import { attendanceService } from '@/services/operations.service';
 import { useApiResource } from '@/hooks/useApiResource';
 import { useAuthStore } from '@/stores/auth.store';
 import { useLanguageStore } from '@/stores/language.store';
@@ -20,7 +21,17 @@ import { StatCard } from '@/components/ui/StatCard';
 import { Card, CardBody, CardHeader } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { EmptyState, ErrorState, LoadingState } from '@/components/feedback/States';
+import { Input } from '@/components/ui/Input';
 import { CHART_COLORS, DonutChart, SimpleBarChart } from './charts';
+
+const todayIso = (): string => {
+  // The browser's own day, not UTC: a school in Cambodia is a day ahead of UTC
+  // for most of its morning, and `toISOString` would offer yesterday as "today".
+  const now = new Date();
+  const local = new Date(now.getTime() - now.getTimezoneOffset() * 60_000);
+
+  return local.toISOString().slice(0, 10);
+};
 
 const greetingKey = (): 'morning' | 'afternoon' | 'evening' => {
   const hour = new Date().getHours();
@@ -40,6 +51,19 @@ export const AdminDashboardView = () => {
   const fetcher = useCallback(() => dashboardService.admin(), []);
   const { data, isLoading, error, refresh } = useApiResource(fetcher);
 
+  /**
+   * The attendance panel is loaded on its own, keyed to the day being viewed.
+   *
+   * Refetching the whole dashboard for a date change would drop the page back
+   * to a spinner every time the arrow keys nudged the date, so only this panel
+   * reloads and the rest of the overview stays put.
+   */
+  const [day, setDay] = useState(todayIso);
+  const today = useMemo(todayIso, []);
+
+  const attendanceFetcher = useCallback(() => attendanceService.day(day), [day]);
+  const dayAttendance = useApiResource(attendanceFetcher, [day]);
+
   if (isLoading) {
     return <LoadingState />;
   }
@@ -48,7 +72,11 @@ export const AdminDashboardView = () => {
     return <ErrorState message={error ?? undefined} onRetry={refresh} />;
   }
 
-  const attendance = data.attendanceToday;
+  // Until the first response for a newly chosen day arrives, the previous day's
+  // figures stay on screen rather than blanking the card.
+  const attendance = dayAttendance.data ?? data.attendanceToday;
+  const isToday = attendance.date === today;
+  const nothingRecorded = attendance.totalRecords === 0;
 
   const attendanceSlices = [
     { name: t('dashboard:stats.present'), value: attendance.present, color: CHART_COLORS.success },
@@ -101,15 +129,27 @@ export const AdminDashboardView = () => {
           to={ROUTES.classes}
         />
         <StatCard
-          label={t('dashboard:admin.attendanceToday')}
+          // The date lives in the hint rather than the label: a card label wide
+          // enough for "Attendance on 02 September 2026" does not exist, and it
+          // truncated to an ellipsis on every day but today.
+          label={
+            isToday
+              ? t('dashboard:admin.attendanceToday')
+              : t('dashboard:admin.attendanceRate')
+          }
           value={formatPercent(attendance.attendanceRate, language)}
           icon={<CalendarClock className="size-5" />}
           tone={attendance.attendanceRate >= 90 ? 'success' : 'warning'}
           to={ROUTES.attendance}
-          hint={`${formatNumber(attendance.present + attendance.late, language)} / ${formatNumber(
-            attendance.expected,
-            language,
-          )}`}
+          hint={[
+            isToday ? null : formatDate(attendance.date, language),
+            `${formatNumber(attendance.present + attendance.late, language)} / ${formatNumber(
+              attendance.expected,
+              language,
+            )}`,
+          ]
+            .filter(Boolean)
+            .join(' · ')}
         />
       </div>
 
@@ -139,13 +179,40 @@ export const AdminDashboardView = () => {
         </Card>
 
         <Card>
-          <CardHeader title={t('dashboard:admin.attendanceOverview')} />
+          <CardHeader
+            title={t('dashboard:admin.attendanceOverview')}
+            action={
+              <Input
+                type="date"
+                aria-label={t('dashboard:admin.attendanceDate')}
+                value={day}
+                max={today}
+                onChange={(event) => setDay(event.target.value || today)}
+                className="w-[10.5rem]"
+              />
+            }
+          />
           <CardBody>
-            <DonutChart
-              data={attendanceSlices}
-              centerValue={formatPercent(attendance.attendanceRate, language, 0)}
-              centerLabel={t('dashboard:admin.attendanceToday')}
-            />
+            {nothingRecorded ? (
+              <EmptyState
+                title={t('dashboard:admin.noRegister')}
+                message={
+                  isToday
+                    ? t('dashboard:admin.noRegisterTodayHint')
+                    : t('dashboard:admin.noRegisterHint')
+                }
+              />
+            ) : (
+              <DonutChart
+                data={attendanceSlices}
+                centerValue={formatPercent(attendance.attendanceRate, language, 0)}
+                centerLabel={
+                  isToday
+                    ? t('dashboard:admin.attendanceToday')
+                    : formatDate(attendance.date, language)
+                }
+              />
+            )}
           </CardBody>
         </Card>
       </div>

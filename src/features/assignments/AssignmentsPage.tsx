@@ -8,8 +8,10 @@ import { PERMISSIONS } from '@/constants/permissions';
 import { classService } from '@/services/academic.service';
 import { assignmentService } from '@/services/engagement.service';
 import { ApiError } from '@/types/api';
-import { ASSIGNMENT_STATUSES } from '@/types/domain';
+import { ASSIGNMENT_FILTER_STATUSES } from '@/types/domain';
 import type { AssignmentStatus } from '@/types/domain';
+import type { UploadedFile } from '@/services/file.service';
+import { fileNameFromUrl } from '@/services/file.service';
 import type { Assignment, ClassSubject, Submission } from '@/types/entities';
 import { useAcademicOptions, useClassOptions } from '@/hooks/useAcademicOptions';
 import { useListQuery } from '@/hooks/useListQuery';
@@ -17,7 +19,7 @@ import { useMutation } from '@/hooks/useMutation';
 import { usePermission } from '@/hooks/usePermission';
 import { useLanguageStore } from '@/stores/language.store';
 import { toast } from '@/stores/toast.store';
-import { formatDate, todayIso } from '@/utils/format';
+import { formatDate, formatDateTime, todayIso } from '@/utils/format';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
@@ -25,6 +27,8 @@ import { Checkbox } from '@/components/ui/Checkbox';
 import { ConfirmDialog } from '@/components/ui/ConfirmDialog';
 import { FormField } from '@/components/ui/FormField';
 import { Input } from '@/components/ui/Input';
+import { AttachmentPicker } from '@/components/ui/AttachmentPicker';
+import { AttachmentView } from '@/components/ui/AttachmentView';
 import { Modal } from '@/components/ui/Modal';
 import { Select, Textarea } from '@/components/ui/Select';
 import { StatusBadge } from '@/components/ui/StatusBadge';
@@ -71,6 +75,8 @@ export const AssignmentsPage = () => {
   const [editing, setEditing] = useState<Assignment | null>(null);
   const [classSubjects, setClassSubjects] = useState<ClassSubject[]>([]);
   const [confirmArchive, setConfirmArchive] = useState<Assignment | null>(null);
+  /** The worksheet a teacher attaches to the brief, uploaded before the form is saved. */
+  const [attachment, setAttachment] = useState<UploadedFile | null>(null);
 
   const [submissionsFor, setSubmissionsFor] = useState<Assignment | null>(null);
   const [submissions, setSubmissions] = useState<Submission[]>([]);
@@ -105,7 +111,7 @@ export const AssignmentsPage = () => {
     }
 
     classService
-      .listSubjects(Number(watchedClassId))
+      .listSubjects(Number(watchedClassId), { mine: true })
       .then(setClassSubjects)
       .catch(() => setClassSubjects([]));
   }, [watchedClassId]);
@@ -123,6 +129,7 @@ export const AssignmentsPage = () => {
       maxScore: '',
       publishNow: true,
     });
+    setAttachment(null);
     setFormOpen(true);
   };
 
@@ -139,6 +146,16 @@ export const AssignmentsPage = () => {
       maxScore: assignment.maxScore ?? '',
       publishNow: assignment.status === 'PUBLISHED',
     });
+    setAttachment(
+      assignment.attachmentUrl
+        ? {
+            url: assignment.attachmentUrl,
+            fileName: fileNameFromUrl(assignment.attachmentUrl),
+            mimeType: '',
+            sizeBytes: 0,
+          }
+        : null,
+    );
     setFormOpen(true);
   };
 
@@ -164,6 +181,7 @@ export const AssignmentsPage = () => {
       dueDate: values.dueDate,
       maxScore:
         values.maxScore === '' || values.maxScore === undefined ? null : Number(values.maxScore),
+      attachmentUrl: attachment?.url ?? null,
     };
 
     try {
@@ -404,7 +422,7 @@ export const AssignmentsPage = () => {
               value={list.query.filters.status ?? ''}
               onChange={(event) => list.setFilter('status', event.target.value)}
               placeholder={t('common:labels.status')}
-              options={ASSIGNMENT_STATUSES.map((status) => ({
+              options={ASSIGNMENT_FILTER_STATUSES.map((status) => ({
                 value: status,
                 label: t(`communication:assignmentStatus.${status}`),
               }))}
@@ -526,6 +544,11 @@ export const AssignmentsPage = () => {
             </FormField>
           </div>
 
+          {/* A worksheet or a photograph of the exercise, for the class to work from. */}
+          <FormField label={t('communication:assignments.fields.attachment')}>
+            {() => <AttachmentPicker value={attachment} onChange={setAttachment} />}
+          </FormField>
+
           {!editing ? (
             <Checkbox
               id="assignmentPublishNow"
@@ -568,59 +591,95 @@ export const AssignmentsPage = () => {
             {submissions.map((submission) => (
               <li
                 key={submission.studentId}
-                className="flex flex-wrap items-center gap-3 rounded-lg border border-[var(--border)] p-3"
+                className="flex flex-col gap-3 rounded-lg border border-[var(--border)] p-3"
               >
-                <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-medium text-[var(--text)]">
-                    {submission.studentName}
-                  </p>
-                  <p className="text-xs text-[var(--text-subtle)]">{submission.studentCode}</p>
+                <div className="flex flex-wrap items-center gap-3">
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-sm font-medium text-[var(--text)]">
+                      {submission.studentName}
+                    </p>
+                    <p className="text-xs text-[var(--text-subtle)]">{submission.studentCode}</p>
+                  </div>
+
+                  <StatusBadge kind="submission" status={submission.status} size="sm" />
                 </div>
 
-                <StatusBadge kind="submission" status={submission.status} size="sm" />
+                {/*
+                  * The work itself. Marking a submission without being able to
+                  * read it is not marking, so the answer and any photograph the
+                  * pupil handed in sit above the score box rather than behind a
+                  * second click.
+                  */}
+                {submission.content || submission.attachmentUrl ? (
+                  <div className="flex flex-col gap-2 rounded-lg bg-[var(--surface-muted)] p-3">
+                    {submission.content ? (
+                      <p className="whitespace-pre-wrap text-sm text-[var(--text)]">
+                        {submission.content}
+                      </p>
+                    ) : null}
 
-                {submissionsFor?.maxScore ? (
+                    {submission.attachmentUrl ? (
+                      <AttachmentView url={submission.attachmentUrl} />
+                    ) : null}
+
+                    {submission.submittedAt ? (
+                      <p className="text-xs text-[var(--text-subtle)]">
+                        {t('communication:assignments.submissions.submittedOn', {
+                          date: formatDateTime(submission.submittedAt, language),
+                        })}
+                      </p>
+                    ) : null}
+                  </div>
+                ) : (
+                  <p className="text-xs italic text-[var(--text-subtle)]">
+                    {t('communication:assignments.submissions.nothingHandedIn')}
+                  </p>
+                )}
+
+                <div className="flex flex-wrap items-center gap-3">
+                  {submissionsFor?.maxScore ? (
+                    <Input
+                      inputSize="sm"
+                      type="number"
+                      min={0}
+                      max={submissionsFor.maxScore}
+                      className="w-20 text-center"
+                      disabled={!canGrade}
+                      value={submission.score === null ? '' : String(submission.score)}
+                      aria-label={t('communication:assignments.submissions.score')}
+                      onChange={(event) =>
+                        setSubmissions((current) =>
+                          current.map((item) =>
+                            item.studentId === submission.studentId
+                              ? {
+                                  ...item,
+                                  score:
+                                    event.target.value === '' ? null : Number(event.target.value),
+                                }
+                              : item,
+                          ),
+                        )
+                      }
+                    />
+                  ) : null}
+
                   <Input
                     inputSize="sm"
-                    type="number"
-                    min={0}
-                    max={submissionsFor.maxScore}
-                    className="w-20 text-center"
+                    className="w-full sm:w-56"
                     disabled={!canGrade}
-                    value={submission.score === null ? '' : String(submission.score)}
-                    aria-label={t('communication:assignments.submissions.score')}
+                    value={submission.feedback ?? ''}
+                    placeholder={t('communication:assignments.submissions.feedback')}
                     onChange={(event) =>
                       setSubmissions((current) =>
                         current.map((item) =>
                           item.studentId === submission.studentId
-                            ? {
-                                ...item,
-                                score:
-                                  event.target.value === '' ? null : Number(event.target.value),
-                              }
+                            ? { ...item, feedback: event.target.value }
                             : item,
                         ),
                       )
                     }
                   />
-                ) : null}
-
-                <Input
-                  inputSize="sm"
-                  className="w-full sm:w-56"
-                  disabled={!canGrade}
-                  value={submission.feedback ?? ''}
-                  placeholder={t('communication:assignments.submissions.feedback')}
-                  onChange={(event) =>
-                    setSubmissions((current) =>
-                      current.map((item) =>
-                        item.studentId === submission.studentId
-                          ? { ...item, feedback: event.target.value }
-                          : item,
-                      ),
-                    )
-                  }
-                />
+                </div>
               </li>
             ))}
           </ul>

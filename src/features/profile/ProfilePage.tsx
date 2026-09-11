@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { KeyRound, ShieldCheck } from 'lucide-react';
 import { ROUTES } from '@/constants/routes';
+import { PERMISSIONS } from '@/constants/permissions';
+import { usePermission } from '@/hooks/usePermission';
 import { useAuthStore } from '@/stores/auth.store';
 import { useLanguageStore } from '@/stores/language.store';
 import { formatDateTime } from '@/utils/format';
@@ -19,14 +21,26 @@ export const ProfilePage = () => {
   const { t } = useTranslation(['system', 'common', 'users', 'students', 'teachers']);
   const language = useLanguageStore((state) => state.language);
   const user = useAuthStore((state) => state.user);
+  const { has } = usePermission();
   const [isPasswordOpen, setPasswordOpen] = useState(false);
 
   if (!user) {
     return <LoadingState />;
   }
 
-  const profileLink =
-    user.profileType === 'STUDENT' && user.studentId
+  /**
+   * The link to the full record lives in the administrator workspace, so it is
+   * only offered to someone who may open it. A student following it landed on
+   * an administrator screen they have no permission to read.
+   */
+  const canOpenAdminRecord =
+    (user.profileType === 'STUDENT' && has(PERMISSIONS.STUDENTS_VIEW)) ||
+    (user.profileType === 'TEACHER' && has(PERMISSIONS.TEACHERS_VIEW)) ||
+    (user.profileType === 'PARENT' && has(PERMISSIONS.PARENTS_VIEW));
+
+  const profileLink = !canOpenAdminRecord
+    ? null
+    : user.profileType === 'STUDENT' && user.studentId
       ? ROUTES.studentDetail(user.studentId)
       : user.profileType === 'TEACHER' && user.teacherId
         ? ROUTES.teacherDetail(user.teacherId)
@@ -79,6 +93,15 @@ export const ProfilePage = () => {
 
           <CardBody className="flex flex-col gap-4">
             <dl className="grid grid-cols-1 gap-4 text-sm sm:grid-cols-2">
+              {user.profileCode ? (
+                <div>
+                  <dt className="text-[var(--text-muted)]">{t('system:profile.fields.code')}</dt>
+                  <dd className="mt-0.5 font-mono font-medium tracking-wide text-[var(--text)]">
+                    {user.profileCode}
+                  </dd>
+                </div>
+              ) : null}
+
               <div>
                 <dt className="text-[var(--text-muted)]">{t('system:profile.fields.username')}</dt>
                 <dd className="mt-0.5 font-medium text-[var(--text)]">{user.username}</dd>

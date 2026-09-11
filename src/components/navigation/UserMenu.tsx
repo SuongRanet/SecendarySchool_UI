@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ChevronDown, KeyRound, LogOut, UserCircle2 } from 'lucide-react';
-import { ROUTES } from '@/constants/routes';
+import { ROUTES, profileRouteFor } from '@/constants/routes';
 import { useAuthStore } from '@/stores/auth.store';
 import { Avatar } from '@/components/ui/Avatar';
 import { Dropdown } from '@/components/ui/Dropdown';
@@ -65,7 +65,7 @@ export const UserMenu = () => {
             key: 'profile',
             label: t('navigation:userMenu.profile'),
             icon: <UserCircle2 className="size-4" />,
-            onSelect: () => navigate(ROUTES.profile),
+            onSelect: () => navigate(profileRouteFor(user?.roles ?? [])),
           },
           {
             key: 'password',

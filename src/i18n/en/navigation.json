@@ -39,8 +39,7 @@
     "myClasses": "My classes",
     "mySchedule": "My schedule",
     "myChildren": "My children",
-    "profile": "My profile",
-    "nationalExam": "National Exam"
+    "profile": "My profile"
   },
   "actions": {
     "openMenu": "Open menu",
@@ -54,5 +53,12 @@
     "profile": "My profile",
     "changePassword": "Change password",
     "signOut": "Sign out"
+  },
+  "notifications": {
+    "label": "Notifications",
+    "unreadLabel": "Notifications, {{count}} unread",
+    "markAllRead": "Mark all read",
+    "emptyTitle": "Nothing new",
+    "emptyHint": "Homework, marks and announcements will appear here."
   }
 }

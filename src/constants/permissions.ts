@@ -92,9 +92,6 @@ export const PERMISSIONS = {
   DASHBOARD_PRINCIPAL: 'dashboard.principal',
   DASHBOARD_TEACHER: 'dashboard.teacher',
   DASHBOARD_PARENT: 'dashboard.parent',
-  NATIONAL_EXAMS_VIEW: 'national_exams.view',
-  NATIONAL_EXAMS_MANAGE: 'national_exams.manage',
-  NATIONAL_EXAMS_PUBLISH: 'national_exams.publish',
   ASSIGNMENTS_SUBMIT: 'assignments.submit',
 
   DASHBOARD_STUDENT: 'dashboard.student',

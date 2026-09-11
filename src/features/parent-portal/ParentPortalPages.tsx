@@ -590,7 +590,7 @@ const ChildReportCards = ({ studentId }: { studentId: number }) => {
   return (
     <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
       {reportCards.data.map((card) => (
-        <Link key={card.id} to={ROUTES.reportCardDetail(card.id)}>
+        <Link key={card.id} to={ROUTES.parent.reportCardDetail(card.id)}>
           <Card className="h-full transition-colors hover:border-[var(--border-strong)]">
             <CardBody className="flex flex-col gap-2">
               <div className="flex items-start justify-between gap-2">
