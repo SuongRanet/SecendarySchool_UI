@@ -390,3 +390,81 @@
     break-after: page;
   }
 }
+
+/* ---------------------------------------------------------------------------
+ * Student profile card (StudentProfilePrint)
+ *
+ * The card is mounted into <body> only while printing and the app is hidden
+ * for that moment, so the two A4 sheets print alone. Everything is scoped to
+ * html.printing-profile, so the report card's own print styles are untouched.
+ * ------------------------------------------------------------------------- */
+.profile-print {
+  display: none;
+}
+
+@media print {
+  html.printing-profile body {
+    background: #fff;
+  }
+
+  html.printing-profile #root {
+    display: none !important;
+  }
+
+  html.printing-profile .profile-print {
+    display: block;
+    font-family: var(--font-khmer);
+    color: #172033;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .profile-sheet {
+    width: 210mm;
+    height: 297mm;
+    padding: 13mm 14mm 12mm;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    break-after: page;
+  }
+
+  .profile-sheet:last-child {
+    break-after: auto;
+  }
+
+  /* A section never splits across a page edge. */
+  .profile-keep {
+    break-inside: avoid;
+  }
+
+  .profile-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10.5px;
+  }
+
+  .profile-table th,
+  .profile-table td {
+    border: 1px solid #dfe5ee;
+    padding: 4px 7px;
+    text-align: left;
+  }
+
+  .profile-table th {
+    background: #f5f7fb;
+    color: #5d6b82;
+    font-size: 9.5px;
+    font-weight: 600;
+  }
+
+  .profile-tick {
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    border: 1.2px solid #172033;
+    border-radius: 2px;
+    vertical-align: -1px;
+  }
+}

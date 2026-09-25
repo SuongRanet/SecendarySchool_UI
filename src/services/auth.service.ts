@@ -29,9 +29,9 @@ export const authService = {
   me: (): Promise<AuthProfile> => api.get<AuthProfile>('/auth/me'),
 
   /**
-   * Starts a reset. The reply is the same whether or not the address is
-   * registered; `code` comes back only outside production, so the flow can be
-   * finished without a mail server.
+   * Starts a reset. An address with no account is refused with
+   * `EMAIL_NOT_REGISTERED`; `code` comes back only outside production, so the
+   * flow can be finished without a mail server.
    */
   forgotPassword: (email: string): Promise<{ sentTo: string; code?: string }> =>
     api.post<{ sentTo: string; code?: string }>('/auth/forgot-password', { email }),

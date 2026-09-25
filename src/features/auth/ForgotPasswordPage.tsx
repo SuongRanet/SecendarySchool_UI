@@ -84,6 +84,18 @@ export const ForgotPasswordPage = () => {
     try {
       await requestCode(values.email);
     } catch (caught) {
+      // A mistyped or suspended address belongs under the field, where the
+      // person is already looking, rather than in a toast.
+      if (caught instanceof ApiError && caught.code === 'EMAIL_NOT_REGISTERED') {
+        emailForm.setError('email', { message: t('auth:forgotPassword.emailNotRegistered') });
+        return;
+      }
+
+      if (caught instanceof ApiError && caught.code === 'ACCOUNT_SUSPENDED') {
+        emailForm.setError('email', { message: t('auth:forgotPassword.accountSuspended') });
+        return;
+      }
+
       toast.error(caught instanceof ApiError ? caught.message : t('common:toast.failed'));
     }
   });

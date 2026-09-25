@@ -60,6 +60,17 @@ export interface TeacherListQuery extends ListQuery {
   hasAccount?: boolean;
 }
 
+/** Sends a profile photo as multipart form data under the `photo` field. */
+const photoForm = (file: File): FormData => {
+  const form = new FormData();
+  form.append('photo', file);
+
+  return form;
+};
+
+// Let the browser set the multipart boundary, and allow for a slow phone upload.
+const PHOTO_REQUEST = { headers: { 'Content-Type': undefined }, timeout: 120_000 };
+
 export const teacherService = {
   list: (query: TeacherListQuery = {}): Promise<PaginatedData<Teacher>> =>
     api.getPaginated<Teacher>('/teachers', cleanParams(query)),
@@ -79,6 +90,11 @@ export const teacherService = {
   archive: (id: number): Promise<null> => api.delete<null>(`/teachers/${id}`),
 
   restore: (id: number): Promise<Teacher> => api.post<Teacher>(`/teachers/${id}/restore`),
+
+  uploadPhoto: (id: number, file: File): Promise<Teacher> =>
+    api.put<Teacher>(`/teachers/${id}/photo`, photoForm(file), PHOTO_REQUEST),
+
+  removePhoto: (id: number): Promise<Teacher> => api.delete<Teacher>(`/teachers/${id}/photo`),
 
   assignSubjects: (id: number, subjectIds: number[]): Promise<Teacher> =>
     api.put<Teacher>(`/teachers/${id}/subjects`, { subjectIds }),
@@ -166,6 +182,11 @@ export const studentService = {
   archive: (id: number): Promise<null> => api.delete<null>(`/students/${id}`),
 
   restore: (id: number): Promise<Student> => api.post<Student>(`/students/${id}/restore`),
+
+  uploadPhoto: (id: number, file: File): Promise<Student> =>
+    api.put<Student>(`/students/${id}/photo`, photoForm(file), PHOTO_REQUEST),
+
+  removePhoto: (id: number): Promise<Student> => api.delete<Student>(`/students/${id}/photo`),
 
   listParents: (id: number): Promise<StudentParent[]> =>
     api.get<StudentParent[]>(`/students/${id}/parents`),

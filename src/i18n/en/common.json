@@ -153,5 +153,18 @@
     "dobHint": "Used to work out the age shown on the report card.",
     "guardianPhoneHint": "How the school reaches this guardian. Strongly recommended.",
     "accountLater": "Not required. A login can be added later from this same screen."
+  },
+  "photo": {
+    "upload": "Upload photo",
+    "change": "Change photo",
+    "remove": "Remove photo",
+    "uploading": "Uploading…",
+    "hint": "JPG, PNG, WebP or HEIC, up to 5 MB",
+    "uploaded": "Photo updated",
+    "removed": "Photo removed",
+    "removeTitle": "Remove this photo?",
+    "removeMessage": "The photo will be deleted. Initials will be shown instead.",
+    "tooLarge": "That photo is too large. The limit is 5 MB.",
+    "wrongType": "Use a JPG, PNG, WebP or HEIC photo."
   }
 }

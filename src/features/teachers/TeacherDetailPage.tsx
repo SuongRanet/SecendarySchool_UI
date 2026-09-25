@@ -13,8 +13,8 @@ import { usePermission } from '@/hooks/usePermission';
 import { useLanguageStore } from '@/stores/language.store';
 import { formatDate } from '@/utils/format';
 import { PageHeader } from '@/components/ui/PageHeader';
-import { Avatar } from '@/components/ui/Avatar';
 import { Badge } from '@/components/ui/Badge';
+import { ProfilePhoto } from '@/components/ui/ProfilePhoto';
 import { Button } from '@/components/ui/Button';
 import { Card, CardBody, CardHeader } from '@/components/ui/Card';
 import { Checkbox } from '@/components/ui/Checkbox';
@@ -203,7 +203,13 @@ export const TeacherDetailPage = () => {
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
           <Card>
             <CardBody className="flex flex-col items-center gap-3 text-center">
-              <Avatar name={record.fullName} src={record.profilePhoto} size="xl" />
+              <ProfilePhoto
+                name={record.fullName}
+                src={record.profilePhoto}
+                canEdit={canUpdate}
+                onUpload={async (file) => teacher.setData(await teacherService.uploadPhoto(teacherId, file))}
+                onRemove={async () => teacher.setData(await teacherService.removePhoto(teacherId))}
+              />
               <div>
                 <p className="text-lg font-semibold text-[var(--text)]">{record.fullName}</p>
                 <p className="text-sm text-[var(--text-muted)]">{record.teacherCode}</p>

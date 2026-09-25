@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { CalendarCheck, GraduationCap, Heart, Pencil, Plus, Trash2, Users } from 'lucide-react';
+import { CalendarCheck, GraduationCap, Heart, Pencil, Plus, Printer, Trash2, Users } from 'lucide-react';
 import { PERMISSIONS } from '@/constants/permissions';
 import { ROUTES } from '@/constants/routes';
 import { parentService, studentService } from '@/services/people.service';
@@ -26,6 +26,7 @@ import { calculateAge, formatDate, formatPercent, formatScore } from '@/utils/fo
 import { PageHeader } from '@/components/ui/PageHeader';
 import { Avatar } from '@/components/ui/Avatar';
 import { Badge } from '@/components/ui/Badge';
+import { ProfilePhoto } from '@/components/ui/ProfilePhoto';
 import { Button } from '@/components/ui/Button';
 import { Card, CardBody, CardHeader } from '@/components/ui/Card';
 import { Checkbox } from '@/components/ui/Checkbox';
@@ -41,6 +42,7 @@ import type { Column } from '@/components/tables/DataTable';
 import { RowActions } from '@/components/tables/RowActions';
 import { ErrorState, LoadingState } from '@/components/feedback/States';
 import { StudentFormModal } from './StudentFormModal';
+import { StudentProfilePrint } from './StudentProfilePrint';
 
 type TabKey = 'profile' | 'guardians' | 'enrollments' | 'grades' | 'behavior';
 
@@ -57,6 +59,13 @@ export const StudentDetailPage = () => {
 
   const [tab, setTab] = useState<TabKey>('profile');
   const [isEditOpen, setEditOpen] = useState(false);
+  /*
+   * A counter rather than a flag. Some browsers never fire afterprint, which
+   * would leave a flag stuck on and make the next click do nothing; bumping the
+   * counter remounts the card and prints again every time.
+   */
+  const [printRun, setPrintRun] = useState(0);
+  const finishPrinting = useCallback(() => setPrintRun(0), []);
   const [isLinkOpen, setLinkOpen] = useState(false);
   const [parentOptions, setParentOptions] = useState<Parent[]>([]);
   const [linkParentId, setLinkParentId] = useState('');
@@ -347,17 +356,43 @@ export const StudentDetailPage = () => {
           { label: record.fullName },
         ]}
         actions={
-          canUpdate ? (
+          <div className="flex flex-wrap items-center gap-2">
+            {/*
+              * Waits for the guardians and enrolment history, because printing
+              * before they arrive would put a half-empty card on paper.
+              */}
             <Button
               variant="secondary"
-              onClick={() => setEditOpen(true)}
-              leftIcon={<Pencil className="size-4" />}
+              onClick={() => setPrintRun((run) => run + 1)}
+              disabled={guardians.isLoading || history.isLoading}
+              leftIcon={<Printer className="size-4" />}
             >
-              {t('common:actions.edit')}
+              {t('students:print.button')}
             </Button>
-          ) : null
+            {canUpdate ? (
+              <Button
+                variant="secondary"
+                onClick={() => setEditOpen(true)}
+                leftIcon={<Pencil className="size-4" />}
+              >
+                {t('common:actions.edit')}
+              </Button>
+            ) : null}
+          </div>
         }
       />
+
+      {printRun > 0 ? (
+        <StudentProfilePrint
+          key={printRun}
+          student={record}
+          guardians={guardians.data ?? []}
+          history={history.data ?? []}
+          attendance={attendance.data ?? null}
+          language={language}
+          onDone={finishPrinting}
+        />
+      ) : null}
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <StatCard
@@ -408,7 +443,13 @@ export const StudentDetailPage = () => {
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
           <Card className="lg:col-span-1">
             <CardBody className="flex flex-col items-center gap-3 text-center">
-              <Avatar name={record.fullName} src={record.profilePhoto} size="xl" />
+              <ProfilePhoto
+                name={record.fullName}
+                src={record.profilePhoto}
+                canEdit={canUpdate}
+                onUpload={async (file) => student.setData(await studentService.uploadPhoto(studentId, file))}
+                onRemove={async () => student.setData(await studentService.removePhoto(studentId))}
+              />
               <div>
                 <p className="text-lg font-semibold text-[var(--text)]">{record.fullName}</p>
                 {record.fullNameKh ? (
